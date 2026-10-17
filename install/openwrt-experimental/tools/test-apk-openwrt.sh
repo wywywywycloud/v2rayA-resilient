@@ -24,8 +24,8 @@ for package in luca-xray-key-bot luca-xray-key-bot-core luca-xray-key-bot-servic
     apk info -e "$package"
 done
 sha256sum /usr/bin/v2raya /usr/bin/v2raya_core > "$out/binaries.sha256"
-[ "$(stat -c %u /usr/bin/v2raya)" = 0 ]
-[ "$(stat -c %u /usr/bin/v2raya_core)" = 0 ]
+[ "$(ls -ln /usr/bin/v2raya | awk '{print $3}')" = 0 ]
+[ "$(ls -ln /usr/bin/v2raya_core | awk '{print $3}')" = 0 ]
 [ -f /usr/share/luci/menu.d/luci-app-v2raya.json ]
 [ -f /www/luci-static/resources/view/v2raya/config.js ]
 [ "$(uci -q get v2raya.config.enabled)" = 1 ]

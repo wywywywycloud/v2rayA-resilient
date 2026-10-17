@@ -1,0 +1,70 @@
+{
+  "application_base": "b51db60a6654b50372bfe6d4f3d63a204b928fc5",
+  "ipk_source_release": "2026.09.29-experimental.1",
+  "apk_version": "2026.10.17-r1",
+  "binary_version": "2026.10.17-luca.1",
+  "architectures": [
+    "aarch64_cortex-a53",
+    "aarch64_generic"
+  ],
+  "toolchain": {
+    "go": "1.26.8",
+    "node": "24.21.0",
+    "yarn": "1.22.22",
+    "apk_tools": "3.0.5",
+    "CGO_ENABLED": "0",
+    "GOARCH": "arm64",
+    "GOARM64": "v8.0"
+  },
+  "source_verification": {
+    "baseCommit": "b51db60a6654b50372bfe6d4f3d63a204b928fc5",
+    "verifiedFiles": 674,
+    "mismatches": [],
+    "scope": "All archived application source files outside install/"
+  },
+  "binary_sha256": {
+    "v2raya": "d7ca46155821457125a68a9c7cede7b83b5f8f92ac2be6b44df58dec9d362270",
+    "v2raya_core": "54207de57272c87a16151b36cc2778db5c9bf2e3f74d79b421c8b5ec9e5e4954"
+  },
+  "network_validation": {
+    "candidate_expectations": true,
+    "checks": [
+      "imported XHTTP reached running generated core config (range=default)",
+      "XHTTP upload/download payloads, observed POST sizes",
+      "manual selection reached node2",
+      "selection of node1 and recovery",
+      "direct/proxy/block routing with reachable canary",
+      "DNS UDP/TCP clients through UDP/TCP/verified DoH upstream,100cache hits+100unique, NXDOMAIN",
+      "concurrent DNS100same/100unique, TTL expiry, prefetch, upstream outage, reload/recovery",
+      "roundrobin/leastping/keepcurrent/random refresh and payload",
+      "applied stable blackhole config; healthy data fronts; reachable canaries under default-proxy/default-direct;8blocked and recovery",
+      "16 concurrent flows with DNS and API polling",
+      "503 propagation, client cancellation and independent request recovery",
+      "core stop closes the pending origin request"
+    ],
+    "distinct_full_post_sizes": 11,
+    "extended": true,
+    "local_speed_requests": 7,
+    "max_observed_post": 884736,
+    "nodes": 2,
+    "origin_canceled": 1,
+    "origin_requests": 75,
+    "post_range": "default",
+    "prompt_http1_origin_cancellation": false,
+    "scope": "Local service+merged core functional integration; no performance validity, no prompt HTTP/1 remote cancellation, all-dead fallback or transparent interception claim",
+    "status": "PASS",
+    "varied_upload_session": false
+  },
+  "feed_files": {
+    "openwrt-25.12/resilient/aarch64_cortex-a53/luca-xray-key-bot-2026.10.17-r1.apk": "66476495e097a2937f43f60b4c2c135050631dee9beaae619126b5d942535ed0",
+    "openwrt-25.12/resilient/aarch64_cortex-a53/luca-xray-key-bot-core-2026.10.17-r1.apk": "9ac681225f462592c2abf2775340376ae24123008b1525bb6508b1be5b413166",
+    "openwrt-25.12/resilient/aarch64_cortex-a53/luca-xray-key-bot-service-2026.10.17-r1.apk": "99168126c1b59c81b2c2cf8807085a6aafbbfb4cb4cad8d2a62b44442f1959bb",
+    "openwrt-25.12/resilient/aarch64_cortex-a53/luci-app-luca-xray-key-bot-2026.10.17-r1.apk": "b5ffa321ad5ba9d14c5917947c4ff9b297a7563377154fac53f817069a354fdb",
+    "openwrt-25.12/resilient/aarch64_cortex-a53/packages.adb": "99095a46e5402cb7551ebe2e7da48d68b9e1b7777d34eed9a131b45e838fe5b7",
+    "openwrt-25.12/resilient/aarch64_generic/luca-xray-key-bot-2026.10.17-r1.apk": "9c656eef45dd166ac8539ce0620e4a5130da97b17ce3c56b0e143441873d6b61",
+    "openwrt-25.12/resilient/aarch64_generic/luca-xray-key-bot-core-2026.10.17-r1.apk": "0378e1f1768e27c585f9d676ee0e7636cdc88c6222daf9d9cac4d465a5c86e58",
+    "openwrt-25.12/resilient/aarch64_generic/luca-xray-key-bot-service-2026.10.17-r1.apk": "cdde22461bcf00480d31956581f82a728ba6f95fc7e1a19912a6dc0be9f279e5",
+    "openwrt-25.12/resilient/aarch64_generic/luci-app-luca-xray-key-bot-2026.10.17-r1.apk": "e5a40e2a203edf14ceca257358a318a5a09fdab73fa31d928732a2ad2dcd6928",
+    "openwrt-25.12/resilient/aarch64_generic/packages.adb": "a18eefc35b0683eacaa06709acf06f0597efe63dc32880d0d0e758cbc09d1ea3"
+  }
+}
