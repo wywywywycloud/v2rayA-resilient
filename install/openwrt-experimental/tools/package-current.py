@@ -80,19 +80,9 @@ def binary(path):
     return data, 0o755
 
 
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--service", type=Path, required=True)
-    parser.add_argument("--core", type=Path, required=True)
-    parser.add_argument("--luci-version", required=True)
-    parser.add_argument("--version", required=True)
-    parser.add_argument("--output", type=Path, required=True)
-    args = parser.parse_args()
-    for version in (args.version, args.luci_version):
-        if not re.fullmatch(r"[A-Za-z0-9.+_-]+", version):
-            parser.error("Invalid package version")
+def payloads(service_path, core_path):
     root = Path(__file__).resolve().parents[1]
-    core = {"usr/bin/v2raya_core": binary(args.core)}
+    core = {"usr/bin/v2raya_core": binary(core_path)}
     init = (root / "v2raya/files/v2raya.init").read_bytes().replace(b"\r\n", b"\n")
     marker = b'append_env "config" "/etc/v2raya"'
     if init.count(marker) != 1:
@@ -100,7 +90,7 @@ def main():
     # Official geo packages use this directory; avoid another first-start download.
     init = init.replace(marker, marker + b'\n\tappend_env "v2ray_assetsdir" "/usr/share/v2ray"')
     app = {
-        "usr/bin/v2raya": binary(args.service),
+        "usr/bin/v2raya": binary(service_path),
         "etc/init.d/v2raya": (init, 0o755),
         "etc/config/v2raya": ((root / "v2raya/files/v2raya.config").read_bytes().replace(b"\r\n", b"\n"), 0o600),
         "lib/upgrade/keep.d/v2raya": (b"/etc/v2raya/\n", 0o644),
@@ -115,6 +105,21 @@ def main():
                 luci[path.as_posix()] = (file.read_bytes(), 0o644)
     if not luci:
         raise ValueError("LuCI source files are missing")
+    return core, app, luci
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--service", type=Path, required=True)
+    parser.add_argument("--core", type=Path, required=True)
+    parser.add_argument("--luci-version", required=True)
+    parser.add_argument("--version", required=True)
+    parser.add_argument("--output", type=Path, required=True)
+    args = parser.parse_args()
+    for version in (args.version, args.luci_version):
+        if not re.fullmatch(r"[A-Za-z0-9.+_-]+", version):
+            parser.error("Invalid package version")
+    core, app, luci = payloads(args.service, args.core)
     args.output.mkdir(parents=True, exist_ok=False)
     index = package(args.output, "v2raya-core", args.version, "libc", core)
     index += "\n" + package(
