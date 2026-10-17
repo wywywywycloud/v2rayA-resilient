@@ -5,9 +5,48 @@ set -eu
 umask 077
 [ "$(id -u)" = 0 ] || { echo 'Run as root on OpenWrt.' >&2; exit 1; }
 . /etc/openwrt_release
+# APK uses a separate signed index and key; keep the existing opkg feed intact.
+add_apk_feed() {
+    command -v apk >/dev/null 2>&1 || { echo 'OpenWrt 25.12 requires apk.' >&2; exit 1; }
+    arch=$(cat /etc/apk/arch)
+    [ "$arch" = "$DISTRIB_ARCH" ] || { echo "APK architecture does not match OpenWrt." >&2; exit 1; }
+    case "$arch" in
+        aarch64_cortex-a53|aarch64_generic) ;;
+        *) echo "No luca-xray-key-bot APK build for architecture: $arch" >&2; exit 1 ;;
+    esac
+    feed_url="https://raw.githubusercontent.com/wywywywycloud/v2rayA-current/openwrt-feed/openwrt-25.12/resilient/$arch"
+    key_url='https://raw.githubusercontent.com/wywywywycloud/v2rayA-current/openwrt-feed/luca-apk.pem.pub'
+    key_sha256='c1800dbd25023c5b2629d13d02103c621b2ce23e48282f949b88d9a81dda7277'
+    work_dir=$(mktemp -d /tmp/luca-apk.XXXXXX)
+    trap 'rm -rf "$work_dir"' EXIT
+    trap 'exit 1' HUP INT TERM
+    mkdir "$work_dir/keys"
+    wget -O "$work_dir/keys/luca-apk.pem.pub" "$key_url"
+    printf '%s  %s\n' "$key_sha256" "$work_dir/keys/luca-apk.pem.pub" | sha256sum -c -
+    wget -O "$work_dir/packages.adb" "$feed_url/packages.adb"
+    apk --keys-dir "$work_dir/keys" verify "$work_dir/packages.adb"
+    mkdir -p /etc/apk/keys /etc/apk/repositories.d
+    cp "$work_dir/keys/luca-apk.pem.pub" /etc/apk/keys/luca-apk.pem.pub
+    chmod 644 /etc/apk/keys/luca-apk.pem.pub
+    repo_file=/etc/apk/repositories.d/luca-xray-key-bot.list
+    printf '%s/packages.adb\n' "$feed_url" > "$work_dir/repository"
+    if ! cmp -s "$work_dir/repository" "$repo_file"; then
+        [ ! -f "$repo_file" ] || cp "$repo_file" "$repo_file.before-luca"
+        cp "$work_dir/repository" "$repo_file.new"
+        chmod 644 "$repo_file.new"
+        mv "$repo_file.new" "$repo_file"
+    fi
+    apk update
+    echo 'Feed added. Install with: apk add luca-xray-key-bot'
+    echo 'In LuCI: System > Software > filter luca-xray-key-bot > Install.'
+    echo 'No application package or application setting was changed by this script.'
+}
+case "$DISTRIB_RELEASE" in
+    25.12.*) add_apk_feed; exit 0 ;;
+esac
 case "$DISTRIB_RELEASE" in
     24.10.0|24.10.1|24.10.2|24.10.3|24.10.4|24.10.5|24.10.6|24.10.7|24.10.8) ;;
-    *) echo 'This feed supports OpenWrt 24.10.0 through 24.10.8 only.' >&2; exit 1 ;;
+    *) echo 'This feed supports OpenWrt 24.10.0 through 24.10.8 (opkg) and 25.12 (apk).' >&2; exit 1 ;;
 esac
 opkg print-architecture | awk '$2 == "aarch64_cortex-a53" {found=1} END {exit !found}' || {
     echo 'Requires aarch64_cortex-a53; do not override your router architecture.' >&2; exit 1;
