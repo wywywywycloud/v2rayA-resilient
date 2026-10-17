@@ -1,17 +1,38 @@
-# OpenWrt 25.12 APK feed
+# luca-xray-key-bot release: OpenWrt 25.12 packages
 
-Install the complete xray-proxy-client-experimental client:
+APK 2026.10.18-r3 includes verified HTTPS node probes from source commit 4ef764a23d9c56d60de3c4af10167834e5661c03 on main-apk-feed. The application base and unchanged core originate from b51db60a6654b50372bfe6d4f3d63a204b928fc5 (2026.09.29-experimental.1 IPK). A successful TCP connection alone no longer marks a proxy healthy. Probe timings include the HTTPS request, not ICMP RTT.
+
+Supported package architectures: aarch64_cortex-a53 and aarch64_generic. The latter is used by the official ARM64 QEMU image. Other architectures are not supported by this release.
+
+On OpenWrt 25.12:
 
     wget -O /tmp/add-resilient-feed.sh https://raw.githubusercontent.com/wywywywycloud/v2rayA-current/openwrt-feed/add-resilient-feed.sh &&
     sh /tmp/add-resilient-feed.sh &&
-    apk add xray-proxy-client-experimental
+    apk add --upgrade xray-proxy-client-experimental
 
-The bootstrap checks /etc/apk/arch and installs the correct repository for aarch64_cortex-a53 or aarch64_generic. It verifies the public key hash and signed packages.adb before registering the feed. No --allow-untrusted flag is needed.
+The metapackage installs xray-proxy-client-experimental-service, xray-proxy-client-experimental-core and luci-app-xray-proxy-client-experimental with exact matching versions. OpenWrt supplies the remaining dependencies, including LuCI, CA certificates, nft TPROXY, kmod-tun and geodata. The application keeps its x-Ray VPN display name, /etc/config/v2raya configuration, /etc/v2raya database and /etc/init.d/v2raya service. Access its interface on port 2017, or through LuCI Services.
 
-The bundle contains a service, matching core and LuCI integration. Exact version dependencies prevent mixing releases. Existing internal configuration and service names remain v2raya; the application still displays x-Ray VPN. Open the web interface on port 2017 or use LuCI Services > x-Ray VPN.
+The same bootstrap URL retains its signed opkg feed on OpenWrt 24.10.0–24.10.8. APK uses a separate RSA public key and packages.adb index. The script checks the pinned key hash and index signature before adding the repository; it installs no application package itself. Repeated invocation is idempotent.
 
-Application base: b51db60a6654b50372bfe6d4f3d63a204b928fc5, identical to the source of the current 2026.09.29-experimental.1 IPK release. APK build sources and tests are maintained on main-apk-feed in wywywywycloud/v2rayA-current. See the release validation for the tested OpenWrt version and limitations.
+## Rebuilding
 
-The existing OpenWrt 24.10 opkg feed and package names remain unchanged.
+Build the GUI and static Linux ARM64 binaries using README.md, with service version 2026.10.18-luca.3 and core version 2026.10.17-luca.1. Use Go 1.26.8, Node 24.21.0 and Yarn 1.22.22. Do not change the committed Go replacements or lockfiles.
 
-Release name: luca-xray-key-bot. To migrate an already installed initial APK, run `apk del luca-xray-key-bot` before the installation above; modified settings are preserved.
+Build upstream apk-tools 3.0.5 with mkpkg and mkndx enabled. Generate a PEM RSA key and a matching .pub file beside it:
+
+    openssl genrsa -out luca-apk.pem 2048
+    chmod 600 luca-apk.pem
+    openssl rsa -in luca-apk.pem -pubout -out luca-apk.pem.pub
+    sudo python3 install/openwrt-experimental/tools/package-apk.py \
+      --service dist/v2raya --core dist/v2raya_core \
+      --version 2026.10.18-r3 --arch aarch64_cortex-a53 \
+      --apk /absolute/path/to/apk --key /absolute/path/to/luca-apk.pem \
+      --output dist/apk/aarch64_cortex-a53
+
+Repeat for aarch64_generic with the same binaries and another output directory. The output directory must not already exist. Signing keys are private build inputs and must never be committed. The builder reuses the existing IPK payload construction; APK lifecycle hooks enable/start the service, restart it on upgrade and stop/disable it on removal. UCI configuration is registered with OpenWrt APK conffiles metadata.
+
+Consult APK-VALIDATION.md in the release for actual results and limitations. Physical-router testing is outside the VM test scope.
+
+## Migration from the initial APK naming
+
+If luca-xray-key-bot is already installed, first run `apk del luca-xray-key-bot`, then rerun the bootstrap above and install `xray-proxy-client-experimental`. Modified UCI configuration and /etc/v2raya data are retained. The new packages conflict with the old payload packages to prevent file overwrites. The release name remains luca-xray-key-bot.

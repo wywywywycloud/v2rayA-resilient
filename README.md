@@ -1,3 +1,7 @@
+# OpenWrt 25.12 APK update: 2026.10.18-r3
+
+Signed ARM64 packages with verified HTTPS node probes and kmod-tun dependency. See [installation and migration](openwrt-25.12/resilient/README.md). The bootstrap URL remains unchanged; OpenWrt 24.10 opkg packages below are unaffected.
+
 # x-Ray VPN experimental
 
 Install **xray-proxy-client-experimental** from this signed feed. The metapackage pulls the exact matching service, core and LuCI version `2026.09.29-experimental.1`, plus their declared dependencies from your official OpenWrt repositories.

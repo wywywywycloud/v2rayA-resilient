@@ -1,5 +1,5 @@
-9e6ad570d8f4af4df84e8101cb8da2d3632075e70c8178318f926a1073823bb1  xray-proxy-client-experimental-core-2026.10.18-r1.apk
-fb9ace089ffe9a3020aca7739d3cd97244cea10a1dc3625de68100fca195a48e  xray-proxy-client-experimental-service-2026.10.18-r1.apk
-43224e0a6b3d4864875e89c35754789cbd7aad3fdb9e65419e723e14ac95e628  luci-app-xray-proxy-client-experimental-2026.10.18-r1.apk
-7e4e002fe417cac67b315adbfaee4b13d159f2af1fd33f573a452cd686d95948  xray-proxy-client-experimental-2026.10.18-r1.apk
-097f9a63d77c61e6811df15eeb037c61f9c6fe76feb4bbb5c6544b0bb57f1693  packages.adb
+ce0c09361d98b61d77717a1133a2ab926f3e6c8203b7cbfc1c7f3b07fe67f1bb  luci-app-xray-proxy-client-experimental-2026.10.18-r3.apk
+03ba21362bd1a683c4d00b3619ee11bed68c7955e446408d103647d2dd7b504d  packages.adb
+e8ca3b827c3b8dea4c0e1b7cf739b2a5f485194086e4425d66393501cbea826e  xray-proxy-client-experimental-2026.10.18-r3.apk
+308ac88ddb000d2fe441c836328b50332ffcf5b983ec7ebab42f393da3cdbe65  xray-proxy-client-experimental-core-2026.10.18-r3.apk
+09d182a31e354a846cf1c45c9336a3bee9fcc1bf3f2d1e062a177c7a4d39a13b  xray-proxy-client-experimental-service-2026.10.18-r3.apk
