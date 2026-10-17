@@ -72,6 +72,10 @@ func probeSubscriptionServerWithContext(parent context.Context, server serverObj
 }
 
 func probeSubscriptionServerMeasurementWithContext(parent context.Context, server serverObj.ServerObj, probeURL string, timeout time.Duration) subscriptionProbeResult {
+	return probeSubscriptionServerMeasurementMode(parent, server, probeURL, timeout, true)
+}
+
+func probeSubscriptionServerMeasurementMode(parent context.Context, server serverObj.ServerObj, probeURL string, timeout time.Duration, measureSpeed bool) subscriptionProbeResult {
 	if err := acquireProbeCore(parent); err != nil {
 		return subscriptionProbeResult{err: err}
 	}
@@ -160,19 +164,27 @@ func probeSubscriptionServerMeasurementWithContext(parent context.Context, serve
 			conn, e := net.DialTimeout("tcp", address, 100*time.Millisecond)
 			if e == nil {
 				conn.Close()
-				return probeHTTP(ctx, address, probeURL, timeout)
+				return probeHTTPMode(ctx, address, probeURL, timeout, measureSpeed)
 			}
 		}
 	}
 }
 
 func probeHTTP(ctx context.Context, proxyAddress, probeURL string, timeout time.Duration) subscriptionProbeResult {
+	return probeHTTPMode(ctx, proxyAddress, probeURL, timeout, true)
+}
+
+func probeHTTPMode(ctx context.Context, proxyAddress, probeURL string, timeout time.Duration, measureSpeed bool) subscriptionProbeResult {
 	transport := &http.Transport{Proxy: http.ProxyURL(&url.URL{Scheme: "http", Host: proxyAddress})}
 	defer transport.CloseIdleConnections()
 	client := &http.Client{
 		Transport:     transport,
 		Timeout:       timeout,
 		CheckRedirect: func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse },
+	}
+	if !measureSpeed {
+		latency, err := probeLatency(ctx, client, probeURL)
+		return subscriptionProbeResult{latency: latency, err: err}
 	}
 	return probeHTTPWithClient(ctx, client, probeURL, subscriptionSpeedProbeURL)
 }

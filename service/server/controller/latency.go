@@ -23,7 +23,7 @@ func GetPingLatency(ctx *gin.Context) {
 		common.ResponseError(ctx, badRequest("whiches", "query parameter \"whiches\" must be a JSON array of server items"))
 		return
 	}
-	wt, err = service.Ping(wt, 1*time.Second)
+	wt, err = service.Ping(ctx.Request.Context(), wt, 8*time.Second)
 	if err != nil {
 		common.ResponseError(ctx, logError(err))
 		return

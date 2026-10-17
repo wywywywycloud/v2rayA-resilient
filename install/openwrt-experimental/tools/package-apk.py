@@ -43,7 +43,7 @@ def main():
     clear = '#!/bin/sh\n[ -n "$IPKG_INSTROOT" ] && exit 0\nrm -f /tmp/luci-indexcache\nexit 0\n'
     rows = [
         ("xray-proxy-client-experimental-core", core, "libc !luca-xray-key-bot-core !v2raya-core !v2raya-resilient-core !v2raya-levin-core", "MPL-2.0", "Matching Xray core for xray-proxy-client-experimental", {}),
-        ("xray-proxy-client-experimental-service", service, f"libc !luca-xray-key-bot-service ca-bundle kmod-nft-tproxy v2ray-geoip v2ray-geosite xray-proxy-client-experimental-core={a.version} !v2raya !v2raya-resilient !v2raya-levin", "AGPL-3.0-only", "Experimental x-Ray VPN service", {"pre-upgrade": stop, "pre-deinstall": remove, "post-install": start, "post-upgrade": start}),
+        ("xray-proxy-client-experimental-service", service, f"libc !luca-xray-key-bot-service ca-bundle kmod-tun kmod-nft-tproxy v2ray-geoip v2ray-geosite xray-proxy-client-experimental-core={a.version} !v2raya !v2raya-resilient !v2raya-levin", "AGPL-3.0-only", "Experimental x-Ray VPN service", {"pre-upgrade": stop, "pre-deinstall": remove, "post-install": start, "post-upgrade": start}),
         ("luci-app-xray-proxy-client-experimental", luci, f"!luci-app-luca-xray-key-bot luci-light xray-proxy-client-experimental-service={a.version} !luci-app-v2raya !luci-app-v2raya-resilient !luci-app-v2raya-levin", "Apache-2.0", "LuCI controls for xray-proxy-client-experimental", {"post-install": clear, "post-upgrade": clear}),
         ("xray-proxy-client-experimental", {}, f"luci-app-xray-proxy-client-experimental={a.version}", "AGPL-3.0-only", "Complete x-Ray VPN experimental client for OpenWrt 25.12", {}),
     ]

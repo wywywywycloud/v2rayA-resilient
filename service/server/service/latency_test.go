@@ -1,9 +1,12 @@
 package service
 
 import (
+	"context"
 	"errors"
 	"io"
+	"net"
 	"net/http"
+	"net/http/httptest"
 	"os"
 	"runtime"
 	"strings"
@@ -117,5 +120,142 @@ func TestReplaceOutboundConnectionsWritesTheGroupOnce(t *testing.T) {
 	}
 	if got := configure.GetConnectedServersByOutbound(outbound); got != nil && got.Len() != 0 {
 		t.Fatalf("group not cleared: %+v", got.Get())
+	}
+}
+
+func TestDashboardProbeRejectsTCPAcceptWithoutProxyTraffic(t *testing.T) {
+	listener, err := net.Listen("tcp", "127.0.0.1:0")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer listener.Close()
+	done := make(chan struct{})
+	go func() {
+		defer close(done)
+		conn, err := listener.Accept()
+		if err == nil {
+			defer conn.Close()
+			time.Sleep(200 * time.Millisecond)
+		}
+	}()
+	result := probeHTTPMode(context.Background(), listener.Addr().String(), "http://probe.invalid/", 50*time.Millisecond, false)
+	if result.err == nil {
+		t.Fatal("TCP accept was treated as a working proxy")
+	}
+	<-done
+}
+
+func TestDashboardProbeMeasuresResponseAndRejectsFailure(t *testing.T) {
+	for _, status := range []int{204, 302, 503} {
+		t.Run(http.StatusText(status), func(t *testing.T) {
+			proxy := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				time.Sleep(80 * time.Millisecond)
+				w.WriteHeader(status)
+			}))
+			defer proxy.Close()
+			result := probeHTTPMode(context.Background(), strings.TrimPrefix(proxy.URL, "http://"), "http://probe.invalid/", time.Second, false)
+			if status != 204 {
+				if result.err == nil {
+					t.Fatalf("HTTP %d was treated as healthy", status)
+				}
+			} else if result.err != nil || result.latency < 80*time.Millisecond {
+				t.Fatalf("response delay not measured: %+v", result)
+			}
+		})
+	}
+}
+
+// Run on the disposable OpenWrt VM against the installed package core.
+func TestDashboardProbeInstalledCore(t *testing.T) {
+	core := os.Getenv("V2RAYA_PROBE_TEST_CORE")
+	if core == "" {
+		t.Skip("set V2RAYA_PROBE_TEST_CORE for the VM integration test")
+	}
+	old := conf.GetEnvironmentConfig().V2rayBin
+	conf.GetEnvironmentConfig().V2rayBin = core
+	defer func() { conf.GetEnvironmentConfig().V2rayBin = old }()
+	target := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		time.Sleep(120 * time.Millisecond)
+		w.WriteHeader(http.StatusNoContent)
+	}))
+	defer target.Close()
+	proxy := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodConnect {
+			http.Error(w, "CONNECT required", 400)
+			return
+		}
+		upstream, err := net.Dial("tcp", strings.TrimPrefix(target.URL, "http://"))
+		if err != nil {
+			http.Error(w, "upstream failed", 502)
+			return
+		}
+		downstream, buffered, err := w.(http.Hijacker).Hijack()
+		if err != nil {
+			upstream.Close()
+			return
+		}
+		defer downstream.Close()
+		defer upstream.Close()
+		buffered.WriteString("HTTP/1.1 200 Connection Established\r\n\r\n")
+		buffered.Flush()
+		go func() { io.Copy(upstream, buffered); upstream.Close() }()
+		io.Copy(downstream, upstream)
+	}))
+	defer proxy.Close()
+	broken := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.Error(w, "no working upstream", http.StatusBadGateway)
+	}))
+	defer broken.Close()
+	for _, tc := range []struct {
+		name, address string
+		healthy       bool
+	}{
+		{"working", proxy.URL, true}, {"accepts-tcp-but-dead", broken.URL, false},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			node, err := serverObj.NewHTTP(tc.address)
+			if err != nil {
+				t.Fatal(err)
+			}
+			legacy := &configure.Which{NodeRef: configure.NodeRef{TYPE: configure.ServerType, ID: 1}}
+			loc := configure.LocatorOf([]configure.ServerRaw{{ServerObj: node}}, nil)
+			if err := legacy.Ping(loc, time.Second); err != nil {
+				t.Fatal(err)
+			}
+			t.Logf("TCP-only measurement: %s", legacy.Latency)
+			result := probeSubscriptionServerMeasurementMode(context.Background(), node, target.URL, 3*time.Second, false)
+			if tc.healthy {
+				if result.err != nil || result.latency < 120*time.Millisecond {
+					t.Fatalf("measurement: %+v", result)
+				}
+				t.Logf("verified HTTP response through installed core in %v", result.latency)
+			} else if result.err == nil {
+				t.Fatal("dead proxy incorrectly accepted")
+			} else {
+				t.Logf("dead proxy rejected: %v", result.err)
+			}
+		})
+	}
+}
+
+func TestPingDropsStaleReference(t *testing.T) {
+	result, err := Ping(context.Background(), []*configure.Which{{NodeRef: configure.NodeRef{TYPE: configure.SubscriptionServerType, ID: 999999, Sub: 999999}}}, time.Second)
+	if err != nil || len(result) != 0 {
+		t.Fatalf("stale reference was not discarded: %v %v", result, err)
+	}
+}
+
+func TestPingDropsSubscriptionsWithoutStartingCore(t *testing.T) {
+	result, err := Ping(context.Background(), []*configure.Which{{NodeRef: configure.NodeRef{TYPE: configure.SubscriptionType, ID: 1}}}, time.Second)
+	if err != nil || len(result) != 0 {
+		t.Fatalf("result=%v error=%v", result, err)
+	}
+}
+
+func TestPingHonorsRequestCancellation(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+	if _, err := Ping(ctx, nil, time.Second); !errors.Is(err, context.Canceled) {
+		t.Fatalf("canceled request: %v", err)
 	}
 }

@@ -1,0 +1,663 @@
+{
+  "date": "2026-10-18",
+  "branch": "main-apk-feed",
+  "package": "2026.10.18-r3",
+  "publication": "local candidate only",
+  "vm": "OpenWrt 25.12.5 ARM64 under QEMU TCG/user networking",
+  "local_baseline": {
+    "candidate_expectations": true,
+    "checks": [
+      "imported XHTTP reached running generated core config (range=default)",
+      "XHTTP upload/download payloads, observed POST sizes",
+      "manual selection reached node2",
+      "selection of node1 and recovery",
+      "direct/proxy/block routing with reachable canary",
+      "DNS UDP/TCP clients through UDP/TCP/verified DoH upstream,100cache hits+100unique, NXDOMAIN",
+      "concurrent DNS100same/100unique, TTL expiry, prefetch, upstream outage, reload/recovery",
+      "roundrobin/leastping/keepcurrent/random refresh and payload",
+      "applied stable blackhole config; healthy data fronts; reachable canaries under default-proxy/default-direct;8blocked and recovery",
+      "16 concurrent flows with DNS and API polling",
+      "503 propagation, client cancellation and independent request recovery",
+      "core stop closes the pending origin request"
+    ],
+    "distinct_full_post_sizes": 10,
+    "extended": true,
+    "local_speed_requests": 8,
+    "max_observed_post": 992512,
+    "nodes": 2,
+    "origin_canceled": 1,
+    "origin_requests": 76,
+    "post_range": "default",
+    "prompt_http1_origin_cancellation": false,
+    "scope": "Local service+merged core functional integration; no performance validity, no prompt HTTP/1 remote cancellation, all-dead fallback or transparent interception claim",
+    "status": "PASS",
+    "varied_upload_session": false
+  },
+  "local_fixed_r2": {
+    "candidate_expectations": true,
+    "checks": [
+      "imported XHTTP reached running generated core config (range=default)",
+      "XHTTP upload/download payloads, observed POST sizes",
+      "manual selection reached node2",
+      "selection of node1 and recovery",
+      "direct/proxy/block routing with reachable canary",
+      "DNS UDP/TCP clients through UDP/TCP/verified DoH upstream,100cache hits+100unique, NXDOMAIN",
+      "concurrent DNS100same/100unique, TTL expiry, prefetch, upstream outage, reload/recovery",
+      "roundrobin/leastping/keepcurrent/random refresh and payload",
+      "applied stable blackhole config; healthy data fronts; reachable canaries under default-proxy/default-direct;8blocked and recovery",
+      "16 concurrent flows with DNS and API polling",
+      "503 propagation, client cancellation and independent request recovery",
+      "core stop closes the pending origin request"
+    ],
+    "distinct_full_post_sizes": 8,
+    "extended": true,
+    "local_speed_requests": 8,
+    "max_observed_post": 983040,
+    "nodes": 2,
+    "origin_canceled": 1,
+    "origin_requests": 76,
+    "post_range": "default",
+    "prompt_http1_origin_cancellation": false,
+    "scope": "Local service+merged core functional integration; no performance validity, no prompt HTTP/1 remote cancellation, all-dead fallback or transparent interception claim",
+    "status": "PASS",
+    "varied_upload_session": false
+  },
+  "real_subscription": {
+    "baseline_tcp": [
+      {
+        "sub": 0,
+        "id": 1,
+        "elapsed_s": 0.05,
+        "latency": "6ms"
+      },
+      {
+        "sub": 0,
+        "id": 2,
+        "elapsed_s": 0.09,
+        "latency": "6ms"
+      },
+      {
+        "sub": 0,
+        "id": 3,
+        "elapsed_s": 0.08,
+        "latency": "7ms"
+      },
+      {
+        "sub": 0,
+        "id": 4,
+        "elapsed_s": 0.06,
+        "latency": "5ms"
+      },
+      {
+        "sub": 0,
+        "id": 5,
+        "elapsed_s": 0.06,
+        "latency": "5ms"
+      },
+      {
+        "sub": 0,
+        "id": 6,
+        "elapsed_s": 0.09,
+        "latency": "5ms"
+      },
+      {
+        "sub": 0,
+        "id": 7,
+        "elapsed_s": 0.06,
+        "latency": "5ms"
+      },
+      {
+        "sub": 0,
+        "id": 8,
+        "elapsed_s": 0.05,
+        "latency": "4ms"
+      },
+      {
+        "sub": 0,
+        "id": 9,
+        "elapsed_s": 0.05,
+        "latency": "4ms"
+      },
+      {
+        "sub": 0,
+        "id": 10,
+        "elapsed_s": 0.08,
+        "latency": "5ms"
+      },
+      {
+        "sub": 0,
+        "id": 11,
+        "elapsed_s": 0.06,
+        "latency": "5ms"
+      },
+      {
+        "sub": 0,
+        "id": 12,
+        "elapsed_s": 0.05,
+        "latency": "6ms"
+      },
+      {
+        "sub": 0,
+        "id": 13,
+        "elapsed_s": 0.08,
+        "latency": "5ms"
+      },
+      {
+        "sub": 0,
+        "id": 14,
+        "elapsed_s": 0.05,
+        "latency": "6ms"
+      },
+      {
+        "sub": 0,
+        "id": 15,
+        "elapsed_s": 0.05,
+        "latency": "5ms"
+      },
+      {
+        "sub": 0,
+        "id": 16,
+        "elapsed_s": 0.06,
+        "latency": "5ms"
+      },
+      {
+        "sub": 0,
+        "id": 17,
+        "elapsed_s": 0.08,
+        "latency": "5ms"
+      },
+      {
+        "sub": 0,
+        "id": 18,
+        "elapsed_s": 0.05,
+        "latency": "5ms"
+      },
+      {
+        "sub": 0,
+        "id": 19,
+        "elapsed_s": 0.05,
+        "latency": "5ms"
+      },
+      {
+        "sub": 0,
+        "id": 20,
+        "elapsed_s": 0.08,
+        "latency": "7ms"
+      },
+      {
+        "sub": 0,
+        "id": 21,
+        "elapsed_s": 0.05,
+        "latency": "4ms"
+      },
+      {
+        "sub": 0,
+        "id": 22,
+        "elapsed_s": 0.05,
+        "latency": "5ms"
+      },
+      {
+        "sub": 0,
+        "id": 23,
+        "elapsed_s": 0.06,
+        "latency": "4ms"
+      },
+      {
+        "sub": 0,
+        "id": 24,
+        "elapsed_s": 0.08,
+        "latency": "5ms"
+      }
+    ],
+    "verified_https": [
+      {
+        "sub": 0,
+        "id": 1,
+        "elapsed_s": 4.08,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "sub": 0,
+        "id": 2,
+        "elapsed_s": 3.7,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "sub": 0,
+        "id": 3,
+        "elapsed_s": 1.34,
+        "latency": "828ms"
+      },
+      {
+        "sub": 0,
+        "id": 4,
+        "elapsed_s": 3.55,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "sub": 0,
+        "id": 5,
+        "elapsed_s": 3.66,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "sub": 0,
+        "id": 6,
+        "elapsed_s": 4.0,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "sub": 0,
+        "id": 7,
+        "elapsed_s": 3.98,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "sub": 0,
+        "id": 8,
+        "elapsed_s": 4.09,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "sub": 0,
+        "id": 9,
+        "elapsed_s": 3.55,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "sub": 0,
+        "id": 10,
+        "elapsed_s": 1.55,
+        "latency": "1010ms"
+      },
+      {
+        "sub": 0,
+        "id": 11,
+        "elapsed_s": 3.55,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "sub": 0,
+        "id": 12,
+        "elapsed_s": 4.39,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "sub": 0,
+        "id": 13,
+        "elapsed_s": 1.03,
+        "latency": "557ms"
+      },
+      {
+        "sub": 0,
+        "id": 14,
+        "elapsed_s": 3.17,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "sub": 0,
+        "id": 15,
+        "elapsed_s": 3.7,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "sub": 0,
+        "id": 16,
+        "elapsed_s": 3.99,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "sub": 0,
+        "id": 17,
+        "elapsed_s": 3.72,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "sub": 0,
+        "id": 18,
+        "elapsed_s": 4.33,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "sub": 0,
+        "id": 19,
+        "elapsed_s": 3.92,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "sub": 0,
+        "id": 20,
+        "elapsed_s": 3.45,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "sub": 0,
+        "id": 21,
+        "elapsed_s": 3.64,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "sub": 0,
+        "id": 22,
+        "elapsed_s": 1.28,
+        "latency": "493ms"
+      },
+      {
+        "sub": 0,
+        "id": 23,
+        "elapsed_s": 3.66,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "sub": 0,
+        "id": 24,
+        "elapsed_s": 3.41,
+        "latency": "PROXY ERROR"
+      }
+    ],
+    "traffic": [
+      {
+        "id": 3,
+        "probe_latency": "828ms",
+        "requests": [
+          {
+            "target": "example.com",
+            "status": 200,
+            "bytes": 577,
+            "seconds": 0.938,
+            "expected_content": true
+          },
+          {
+            "target": "www.gstatic.com",
+            "status": 204,
+            "bytes": 0,
+            "seconds": 0.797
+          },
+          {
+            "target": "speed.cloudflare.com",
+            "error": "HTTPError",
+            "seconds": 0.781
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "probe_latency": "1010ms",
+        "requests": [
+          {
+            "target": "example.com",
+            "status": 200,
+            "bytes": 577,
+            "seconds": 0.765,
+            "expected_content": true
+          },
+          {
+            "target": "www.gstatic.com",
+            "status": 204,
+            "bytes": 0,
+            "seconds": 0.563
+          },
+          {
+            "target": "speed.cloudflare.com",
+            "error": "HTTPError",
+            "seconds": 0.484
+          }
+        ]
+      },
+      {
+        "id": 13,
+        "probe_latency": "557ms",
+        "requests": [
+          {
+            "target": "example.com",
+            "status": 200,
+            "bytes": 577,
+            "seconds": 0.578,
+            "expected_content": true
+          },
+          {
+            "target": "www.gstatic.com",
+            "status": 204,
+            "bytes": 0,
+            "seconds": 0.453
+          },
+          {
+            "target": "speed.cloudflare.com",
+            "error": "HTTPError",
+            "seconds": 0.438
+          }
+        ]
+      },
+      {
+        "id": 1,
+        "probe_latency": "PROXY ERROR",
+        "requests": [
+          {
+            "target": "example.com",
+            "error": "URLError",
+            "seconds": 3.313
+          },
+          {
+            "target": "www.gstatic.com",
+            "error": "URLError",
+            "seconds": 3.078
+          },
+          {
+            "target": "speed.cloudflare.com",
+            "error": "URLError",
+            "seconds": 3.0
+          }
+        ]
+      }
+    ],
+    "extra_traffic": [
+      {
+        "id": 22,
+        "probe_latency": "493ms",
+        "requests": [
+          {
+            "target": "example.com",
+            "status": 200,
+            "bytes": 577,
+            "seconds": 0.781,
+            "expected_content": true
+          },
+          {
+            "target": "httpbin.org",
+            "status": 200,
+            "bytes": 65536,
+            "seconds": 1.328
+          },
+          {
+            "target": "speed.cloudflare.com",
+            "error": "HTTPError",
+            "http_status": 403,
+            "seconds": 0.438
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "probe_latency": "828ms",
+        "requests": [
+          {
+            "target": "example.com",
+            "status": 200,
+            "bytes": 577,
+            "seconds": 0.86,
+            "expected_content": true
+          },
+          {
+            "target": "httpbin.org",
+            "status": 200,
+            "bytes": 65536,
+            "seconds": 1.687
+          },
+          {
+            "target": "speed.cloudflare.com",
+            "error": "HTTPError",
+            "http_status": 403,
+            "seconds": 0.641
+          }
+        ]
+      }
+    ],
+    "speed_with_application_user_agent": [
+      {
+        "id": 3,
+        "probe_latency": "828ms",
+        "requests": [
+          {
+            "target": "speed.cloudflare.com",
+            "status": 200,
+            "bytes": 262144,
+            "seconds": 0.953,
+            "complete_256k": true
+          }
+        ]
+      }
+    ],
+    "same_config_core_comparison": [
+      {
+        "core": "ipk-reference",
+        "status": 503,
+        "bytes": 0,
+        "reality_certificate_errors": 5,
+        "connection_resets": 0
+      },
+      {
+        "core": "apk",
+        "status": 503,
+        "bytes": 0,
+        "reality_certificate_errors": 5,
+        "connection_resets": 0
+      }
+    ],
+    "automatic_selection": [
+      {
+        "case": "mixed",
+        "eligible_count": 1,
+        "members": [
+          {
+            "id": 1,
+            "active": null,
+            "selected": null
+          },
+          {
+            "id": 3,
+            "active": true,
+            "selected": null
+          }
+        ],
+        "status": 200,
+        "bytes": 577,
+        "expected_content": true
+      },
+      {
+        "case": "all-dead",
+        "eligible_count": 0,
+        "members": [
+          {
+            "id": 1,
+            "active": null,
+            "selected": null
+          }
+        ],
+        "error": "URLError"
+      },
+      {
+        "case": "recovery",
+        "eligible_count": 1,
+        "members": [
+          {
+            "id": 1,
+            "active": null,
+            "selected": null
+          },
+          {
+            "id": 3,
+            "active": true,
+            "selected": null
+          }
+        ],
+        "status": 200,
+        "bytes": 577,
+        "expected_content": true
+      }
+    ]
+  },
+  "limitations": [
+    "VM end-to-end HTTPS timings include handshakes, target response and emulation overhead; they are not ICMP RTT or a router latency benchmark.",
+    "Real-node outcomes describe this VM network path at test time, not global server availability.",
+    "The local network harness does not establish transparent interception or prompt HTTP/1 cancellation.",
+    "Python default User-Agent got HTTP 403 from the speed target; the application Go User-Agent successfully downloaded all 262144 bytes.",
+    "Existing release BUILD-MANIFEST describes earlier binaries; this report describes the local probe fix."
+  ],
+  "local_fixed_final_r3": {
+    "candidate_expectations": true,
+    "checks": [
+      "imported XHTTP reached running generated core config (range=default)",
+      "XHTTP upload/download payloads, observed POST sizes",
+      "manual selection reached node2",
+      "selection of node1 and recovery",
+      "direct/proxy/block routing with reachable canary",
+      "DNS UDP/TCP clients through UDP/TCP/verified DoH upstream,100cache hits+100unique, NXDOMAIN",
+      "concurrent DNS100same/100unique, TTL expiry, prefetch, upstream outage, reload/recovery",
+      "roundrobin/leastping/keepcurrent/random refresh and payload",
+      "applied stable blackhole config; healthy data fronts; reachable canaries under default-proxy/default-direct;8blocked and recovery",
+      "16 concurrent flows with DNS and API polling",
+      "503 propagation, client cancellation and independent request recovery",
+      "core stop closes the pending origin request"
+    ],
+    "distinct_full_post_sizes": 9,
+    "extended": true,
+    "local_speed_requests": 7,
+    "max_observed_post": 802816,
+    "nodes": 2,
+    "origin_canceled": 1,
+    "origin_requests": 75,
+    "post_range": "default",
+    "prompt_http1_origin_cancellation": false,
+    "scope": "Local service+merged core functional integration; no performance validity, no prompt HTTP/1 remote cancellation, all-dead fallback or transparent interception claim",
+    "status": "PASS",
+    "varied_upload_session": false
+  },
+  "request_cancellation_final_r3": {
+    "client_aborted_after_s": 1.016,
+    "remaining_probe_cores": 0,
+    "next_probe_latency": "709ms",
+    "next_probe_seconds": 1.141
+  },
+  "checks": {
+    "service": [
+      "build",
+      "vet",
+      "test"
+    ],
+    "core": [
+      "build",
+      "vet"
+    ],
+    "gui": [
+      "lint (existing CRLF warnings, zero errors)",
+      "typecheck",
+      "i18n-check",
+      "236 tests / 47 files",
+      "build"
+    ]
+  },
+  "package_sha256": {
+    "aarch64_generic/xray-proxy-client-experimental-service-2026.10.18-r3.apk": "5863a99baae07fb520080d40a53dc53064f964b0efe68904b6233e04c8f97f01",
+    "aarch64_generic/xray-proxy-client-experimental-core-2026.10.18-r3.apk": "39d85c710ee14e227e0c4bced90bde0e612b3334ef0a76eeb880a9ec1757516b",
+    "aarch64_generic/packages.adb": "ef1498c897442a5bbcefe5806124471d6be0a119861342b951fb4c31cb554729",
+    "aarch64_generic/xray-proxy-client-experimental-2026.10.18-r3.apk": "95e828479f1ac15ffb5012ea48b4919868ef496ed815f37832ce990f96b2a15b",
+    "aarch64_generic/luci-app-xray-proxy-client-experimental-2026.10.18-r3.apk": "092342757cf0a2a37ef6c99155006cfb49e5a03e5ba2f54048b9368514a9ac0e",
+    "aarch64_cortex-a53/xray-proxy-client-experimental-service-2026.10.18-r3.apk": "09d182a31e354a846cf1c45c9336a3bee9fcc1bf3f2d1e062a177c7a4d39a13b",
+    "aarch64_cortex-a53/xray-proxy-client-experimental-core-2026.10.18-r3.apk": "308ac88ddb000d2fe441c836328b50332ffcf5b983ec7ebab42f393da3cdbe65",
+    "aarch64_cortex-a53/packages.adb": "03ba21362bd1a683c4d00b3619ee11bed68c7955e446408d103647d2dd7b504d",
+    "aarch64_cortex-a53/xray-proxy-client-experimental-2026.10.18-r3.apk": "e8ca3b827c3b8dea4c0e1b7cf739b2a5f485194086e4425d66393501cbea826e",
+    "aarch64_cortex-a53/luci-app-xray-proxy-client-experimental-2026.10.18-r3.apk": "ce0c09361d98b61d77717a1133a2ab926f3e6c8203b7cbfc1c7f3b07fe67f1bb"
+  },
+  "service_version": "2026.10.18-luca.3",
+  "core_version": "2026.10.17-luca.1"
+}

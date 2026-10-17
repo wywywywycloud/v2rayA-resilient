@@ -26,35 +26,39 @@ import (
 
 const HttpTestURL = "https://gstatic.com/generate_204"
 
-func Ping(which []*configure.Which, timeout time.Duration) (_ []*configure.Which, err error) {
-	var whiches = configure.NewWhiches(which)
-	// Deduplicate whiches to Ping
-	which = whiches.GetNonDuplicated()
-	// Do not remove interception for a dashboard probe: unrelated traffic
-	// could otherwise escape directly during this window. Only the probe's
-	// TCP and DNS sockets bypass interception: marked on Linux, bound to
-	// the physical egress interface for macOS and Windows TUN.
-	dialer := httpClient.DirectDialer(timeout, v2ray.IsTransparentOn(configure.GetSettingNotNil()))
-	// Multi-threaded asynchronous ping
+// Ping keeps the dashboard endpoint compatible, but measures a request through
+// the candidate: a successful TCP handshake alone does not prove proxy health.
+func Ping(ctx context.Context, which []*configure.Which, timeout time.Duration) ([]*configure.Which, error) {
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
+	which = configure.NewWhiches(which).GetNonDuplicated()
 	loc := configure.NewLocator()
-	wg := new(sync.WaitGroup)
-	for i, v := range which {
-		if v.TYPE == configure.SubscriptionType { // subscriptions cannot be pinged
+	results := make([]*configure.Which, 0, len(which))
+	for _, w := range which {
+		if w.TYPE == configure.SubscriptionType {
 			continue
 		}
-		wg.Add(1)
-		go func(i int) {
-			_ = which[i].PingWithDialer(loc, timeout, dialer)
-			wg.Done()
-		}(i)
-	}
-	wg.Wait()
-	for i := len(which) - 1; i >= 0; i-- {
-		if which[i].TYPE == configure.SubscriptionType { // do not return subscriptionType
-			which = append(which[:i], which[i+1:]...)
+		results = append(results, w)
+		sr, err := loc.Locate(&w.NodeRef)
+		if err != nil {
+			return nil, err
+		}
+		nodes := cloneProbeNodes([]serverObj.ServerObj{sr.ServerObj})
+		result := probeSubscriptionServerMeasurementMode(ctx, nodes[0], HttpTestURL, timeout, false)
+		if err := ctx.Err(); err != nil {
+			return nil, err
+		}
+		if result.err != nil {
+			setHTTPLatencyResult(w, nil, result.err, time.Now())
+		} else {
+			w.Latency = fmt.Sprintf("%.0fms", result.latency.Seconds()*1000)
 		}
 	}
-	return which, nil
+	if err := configure.NewWhiches(results).SaveLatencies(); err != nil {
+		return nil, fmt.Errorf("failed to save the latency test result: %w", err)
+	}
+	return results, nil
 }
 
 func addHosts(tmpl *v2ray.Template, vms []serverObj.ServerObj) {
