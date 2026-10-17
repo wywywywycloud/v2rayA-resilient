@@ -18,6 +18,8 @@ Application source is b51db60a6654b50372bfe6d4f3d63a204b928fc5, matching experim
 - Extended local service/core network fixture: XHTTP payload integrity, node switching, direct/proxy/block routing, UDP/TCP/verified DoH DNS, concurrent DNS, TTL/prefetch/outage/reload, group methods and recovery, 16 concurrent flows, 503 propagation, cancellation with independent request recovery and core-stop origin cleanup. Fixture result: PASS.
 - Separate OpenWrt 24.10.4 VM: existing opkg bootstrap ran twice, signatures verified and xray-proxy-client-experimental 2026.09.29-experimental.1 remained discoverable.
 
+- Public GitHub end-to-end test after feed commit cc50a1d: removed the metapackage, downloaded the bootstrap from the exact original v2rayA-current URL, added the signed public repository and installed all packages with dependencies. API and binary hashes matched the final build. Result: PASS. The repository currently redirects to v2rayA-resilient; the original raw URL worked without modification.
+
 ## Scope and limitations
 
 The cortex-a53 APK contains the same tested ARMv8 binary payload as aarch64_generic; its signatures were verified, but no physical router was tested. Network tests use local fixtures and do not establish throughput, transparent interception, prompt HTTP/1 remote cancellation or all-dead fallback behavior. Existing experimental application behavior is preserved. Raw fixture artifacts remain local because they contain generated test credentials. Sanitized network results are included in BUILD-MANIFEST.json.

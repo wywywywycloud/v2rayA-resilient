@@ -66,5 +66,7 @@
     "openwrt-25.12/resilient/aarch64_generic/luca-xray-key-bot-service-2026.10.17-r1.apk": "cdde22461bcf00480d31956581f82a728ba6f95fc7e1a19912a6dc0be9f279e5",
     "openwrt-25.12/resilient/aarch64_generic/luci-app-luca-xray-key-bot-2026.10.17-r1.apk": "e5a40e2a203edf14ceca257358a318a5a09fdab73fa31d928732a2ad2dcd6928",
     "openwrt-25.12/resilient/aarch64_generic/packages.adb": "a18eefc35b0683eacaa06709acf06f0597efe63dc32880d0d0e758cbc09d1ea3"
-  }
+  },
+  "feed_commit": "cc50a1d",
+  "public_install": "PASS: exact original bootstrap URL, signed public APK repository, full dependency installation and installed binary hashes"
 }
