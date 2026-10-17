@@ -19,8 +19,8 @@ wait_api() {
     done
     /etc/init.d/v2raya running
 }
-apk add luca-xray-key-bot
-for package in luca-xray-key-bot luca-xray-key-bot-core luca-xray-key-bot-service luci-app-luca-xray-key-bot; do
+apk add xray-proxy-client-experimental
+for package in xray-proxy-client-experimental xray-proxy-client-experimental-core xray-proxy-client-experimental-service luci-app-xray-proxy-client-experimental; do
     apk info -e "$package"
 done
 sha256sum /usr/bin/v2raya /usr/bin/v2raya_core > "$out/binaries.sha256"
@@ -40,7 +40,7 @@ wait_api
 [ "$before" != "$(pidof v2raya)" ]
 uci set v2raya.config.log_level=warn
 uci commit v2raya
-apk fix luca-xray-key-bot-service
+apk fix xray-proxy-client-experimental-service
 wait_api
 [ "$(uci -q get v2raya.config.log_level)" = warn ]
 sha256sum -c "$out/binaries.sha256"
@@ -49,10 +49,10 @@ kill -9 "$before"
 sleep 18
 wait_api
 [ "$before" != "$(pidof v2raya)" ]
-apk del luca-xray-key-bot
+apk del xray-proxy-client-experimental
 ! pidof v2raya
 [ ! -e /etc/rc.d/S99v2raya ]
-apk add luca-xray-key-bot
+apk add xray-proxy-client-experimental
 wait_api
 [ "$(uci -q get v2raya.config.log_level)" = warn ]
 sha256sum -c "$out/binaries.sha256"

@@ -29,23 +29,23 @@ def main():
     if os.geteuid() != 0:
         p.error("Run under root or fakeroot so package files are owned by root")
     if not re.fullmatch(r"[0-9]+(?:\.[0-9]+)*-r[0-9]+", a.version):
-        p.error("Use an APK version such as 2026.10.17-r1")
+        p.error("Use an APK version such as 2026.10.18-r1")
     a.apk, a.key = a.apk.resolve(), a.key.resolve()
     a.output.mkdir(parents=True, exist_ok=False)
     a.output = a.output.resolve()
     core, service, luci = payload_module.payloads(a.service, a.core)
     root = Path(__file__).resolve().parents[1]
-    core["usr/share/licenses/luca-xray-key-bot-core/LICENSE"] = ((root.parents[1] / "core/LICENSE").read_bytes(), 0o644)
-    service["usr/share/licenses/luca-xray-key-bot-service/LICENSE"] = ((root.parents[1] / "LICENSE").read_bytes(), 0o644)
+    core["usr/share/licenses/xray-proxy-client-experimental-core/LICENSE"] = ((root.parents[1] / "core/LICENSE").read_bytes(), 0o644)
+    service["usr/share/licenses/xray-proxy-client-experimental-service/LICENSE"] = ((root.parents[1] / "LICENSE").read_bytes(), 0o644)
     stop = '#!/bin/sh\n[ -n "$IPKG_INSTROOT" ] && exit 0\n[ ! -x /etc/init.d/v2raya ] || /etc/init.d/v2raya stop\nexit 0\n'
     remove = stop.rsplit("exit 0\n", 1)[0] + "/etc/init.d/v2raya disable\nexit 0\n"
     start = '#!/bin/sh\n[ -n "$IPKG_INSTROOT" ] && exit 0\n/etc/init.d/v2raya enable\ncase "$(uci -q get v2raya.config.enabled)" in 1|on|true|yes|enabled) if /etc/init.d/v2raya running; then /etc/init.d/v2raya restart; else /etc/init.d/v2raya start; fi ;; esac\nexit 0\n'
     clear = '#!/bin/sh\n[ -n "$IPKG_INSTROOT" ] && exit 0\nrm -f /tmp/luci-indexcache\nexit 0\n'
     rows = [
-        ("luca-xray-key-bot-core", core, "libc !v2raya-core !v2raya-resilient-core !v2raya-levin-core", "MPL-2.0", "Matching Xray core for luca-xray-key-bot", {}),
-        ("luca-xray-key-bot-service", service, f"libc ca-bundle kmod-nft-tproxy v2ray-geoip v2ray-geosite luca-xray-key-bot-core={a.version} !v2raya !v2raya-resilient !v2raya-levin", "AGPL-3.0-only", "Experimental x-Ray VPN service", {"pre-upgrade": stop, "pre-deinstall": remove, "post-install": start, "post-upgrade": start}),
-        ("luci-app-luca-xray-key-bot", luci, f"luci-light luca-xray-key-bot-service={a.version} !luci-app-v2raya !luci-app-v2raya-resilient !luci-app-v2raya-levin", "Apache-2.0", "LuCI controls for luca-xray-key-bot", {"post-install": clear, "post-upgrade": clear}),
-        ("luca-xray-key-bot", {}, f"luci-app-luca-xray-key-bot={a.version}", "AGPL-3.0-only", "Complete x-Ray VPN experimental client for OpenWrt 25.12", {}),
+        ("xray-proxy-client-experimental-core", core, "libc !luca-xray-key-bot-core !v2raya-core !v2raya-resilient-core !v2raya-levin-core", "MPL-2.0", "Matching Xray core for xray-proxy-client-experimental", {}),
+        ("xray-proxy-client-experimental-service", service, f"libc !luca-xray-key-bot-service ca-bundle kmod-nft-tproxy v2ray-geoip v2ray-geosite xray-proxy-client-experimental-core={a.version} !v2raya !v2raya-resilient !v2raya-levin", "AGPL-3.0-only", "Experimental x-Ray VPN service", {"pre-upgrade": stop, "pre-deinstall": remove, "post-install": start, "post-upgrade": start}),
+        ("luci-app-xray-proxy-client-experimental", luci, f"!luci-app-luca-xray-key-bot luci-light xray-proxy-client-experimental-service={a.version} !luci-app-v2raya !luci-app-v2raya-resilient !luci-app-v2raya-levin", "Apache-2.0", "LuCI controls for xray-proxy-client-experimental", {"post-install": clear, "post-upgrade": clear}),
+        ("xray-proxy-client-experimental", {}, f"luci-app-xray-proxy-client-experimental={a.version}", "AGPL-3.0-only", "Complete x-Ray VPN experimental client for OpenWrt 25.12", {}),
     ]
     packages = []
     with tempfile.TemporaryDirectory(prefix="luca-apk-") as tmp:
