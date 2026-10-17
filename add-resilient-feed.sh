@@ -12,7 +12,7 @@ add_apk_feed() {
     [ "$arch" = "$DISTRIB_ARCH" ] || { echo "APK architecture does not match OpenWrt." >&2; exit 1; }
     case "$arch" in
         aarch64_cortex-a53|aarch64_generic) ;;
-        *) echo "No luca-xray-key-bot APK build for architecture: $arch" >&2; exit 1 ;;
+        *) echo "No xray-proxy-client-experimental APK build for architecture: $arch" >&2; exit 1 ;;
     esac
     feed_url="https://raw.githubusercontent.com/wywywywycloud/v2rayA-current/openwrt-feed/openwrt-25.12/resilient/$arch"
     key_url='https://raw.githubusercontent.com/wywywywycloud/v2rayA-current/openwrt-feed/luca-apk.pem.pub'
@@ -37,8 +37,8 @@ add_apk_feed() {
         mv "$repo_file.new" "$repo_file"
     fi
     apk update
-    echo 'Feed added. Install with: apk add luca-xray-key-bot'
-    echo 'In LuCI: System > Software > filter luca-xray-key-bot > Install.'
+    echo 'Feed added. Install with: apk add xray-proxy-client-experimental'
+    echo 'In LuCI: System > Software > filter xray-proxy-client-experimental > Install.'
     echo 'No application package or application setting was changed by this script.'
 }
 case "$DISTRIB_RELEASE" in

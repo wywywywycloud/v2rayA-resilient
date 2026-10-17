@@ -1,5 +1,5 @@
-0378e1f1768e27c585f9d676ee0e7636cdc88c6222daf9d9cac4d465a5c86e58  luca-xray-key-bot-core-2026.10.17-r1.apk
-cdde22461bcf00480d31956581f82a728ba6f95fc7e1a19912a6dc0be9f279e5  luca-xray-key-bot-service-2026.10.17-r1.apk
-e5a40e2a203edf14ceca257358a318a5a09fdab73fa31d928732a2ad2dcd6928  luci-app-luca-xray-key-bot-2026.10.17-r1.apk
-9c656eef45dd166ac8539ce0620e4a5130da97b17ce3c56b0e143441873d6b61  luca-xray-key-bot-2026.10.17-r1.apk
-a18eefc35b0683eacaa06709acf06f0597efe63dc32880d0d0e758cbc09d1ea3  packages.adb
+6645e666dfe1496cccfc480b865560d698d69e0bfc74c0cd13316f39ab0741bd  xray-proxy-client-experimental-core-2026.10.18-r1.apk
+a5e76548edcdb8d35feb99b17c3e3f1b27ac4e19e5a7ce9c961a51ef5969fd98  xray-proxy-client-experimental-service-2026.10.18-r1.apk
+35afa44adaea70025a968b7abcfccdeee8a54b107feac7917b9566c6f86083d0  luci-app-xray-proxy-client-experimental-2026.10.18-r1.apk
+c53532bc234cb1ecdf1b0c2964b6f2321402f584ff88e45ce4a10ed8ecc73f05  xray-proxy-client-experimental-2026.10.18-r1.apk
+057d2a76510d992f0c8269924d6cf91d32a9fff3ae77b5dc0bc5ebfc10d8ed51  packages.adb
