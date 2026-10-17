@@ -1,4 +1,4 @@
-# Proxy latency regression — 2026-10-18
+# Proxy latency regression â€” 2026-10-18
 
 The dashboard used a TCP connect timer as its node latency. A listening endpoint can accept TCP without completing the proxy handshake or forwarding any traffic. QEMU user networking and an upstream proxy can make this especially misleading.
 
@@ -12,7 +12,7 @@ The APK also requires `kmod-tun`, following the earlier VM reproduction of a mis
 - Controlled dead proxy: TCP-only measurement 2 ms; request through the installed core returned HTTP 503 and was rejected.
 - Controlled working proxy: a deliberately delayed HTTP response was measured at approximately 269 ms rather than the 4 ms TCP connection.
 - Original and fixed local packages passed the extended service/core network harness: payload transfer, DNS UDP/TCP/verified DoH, cache expiry/outage/recovery, routing, group selection, 16 concurrent flows, HTTP 503 and cancellation cases. This is functional validation, not a performance or transparent interception benchmark.
-- User-authorized private subscription: original TCP checks reported 4–7 ms for all 24 nodes. Verified HTTPS checks passed four nodes at 493–1010 ms on this VM path; twenty failed the proxy exchange. All four successful nodes subsequently returned the expected HTTPS page. Bounded downloads of 64 KiB and 256 KiB also succeeded.
+- User-authorized private subscription: original TCP checks reported 4â€“7 ms for all 24 nodes. Verified HTTPS checks passed four nodes at 493â€“1010 ms on this VM path; twenty failed the proxy exchange. All four successful nodes subsequently returned the expected HTTPS page. Bounded downloads of 64 KiB and 256 KiB also succeeded.
 - One failed node, same configuration and assets: both the exact core from the working IPK release and the APK core returned HTTP 503 with REALITY certificate rejection. This result does not establish that the node is unavailable on every network path.
 - Automatic selection with one failed and one healthy real node selected the healthy node and transferred HTTPS data. After leaving only the failed member, no eligible/active node remained and traffic was blocked. Restoring the healthy member restored HTTPS after the asynchronous selection pass.
 - The initial Python traffic fixture received HTTP 403 from the speed endpoint with its default User-Agent. Repeating with the application's Go User-Agent downloaded all 262144 bytes. No application change was made for this fixture-specific failure.
