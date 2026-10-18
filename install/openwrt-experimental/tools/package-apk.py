@@ -6,6 +6,7 @@ import importlib.util
 import os
 from pathlib import Path
 import re
+import shlex
 import subprocess
 import tempfile
 
@@ -16,11 +17,25 @@ spec.loader.exec_module(payload_module)
 def run(*args):
     subprocess.run(list(map(str, args)), check=True)
 
+def verify_binary_versions(service, core, runner=""):
+    prefix = shlex.split(runner)
+    service_version = subprocess.check_output([*prefix, str(service.resolve()), "--version"], text=True, timeout=30).strip()
+    core_output = subprocess.check_output([*prefix, str(core.resolve()), "version"], text=True, timeout=30)
+    match = re.search(r"^V2RAYA_CORE\s+(\S+)", core_output, re.MULTILINE)
+    core_version = match.group(1) if match else ""
+    if not service_version or service_version != core_version:
+        raise ValueError(f"Refusing APK with mismatched binary versions: service={service_version}, core={core_version}")
+    if service_version.startswith(("debug", "unstable")):
+        raise ValueError("Release APK must not use a development version")
+    return service_version
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--service", type=Path, required=True)
     p.add_argument("--core", type=Path, required=True)
     p.add_argument("--version", required=True)
+    p.add_argument("--binary-runner", default="", help="Runner for cross-built binaries, e.g. qemu-aarch64")
     p.add_argument("--arch", choices=["aarch64_generic", "aarch64_cortex-a53"], required=True)
     p.add_argument("--apk", type=Path, required=True)
     p.add_argument("--key", type=Path, required=True)
@@ -30,6 +45,7 @@ def main():
         p.error("Run under root or fakeroot so package files are owned by root")
     if not re.fullmatch(r"[0-9]+(?:\.[0-9]+)*-r[0-9]+", a.version):
         p.error("Use an APK version such as 2026.10.18-r1")
+    verify_binary_versions(a.service, a.core, a.binary_runner)
     a.apk, a.key = a.apk.resolve(), a.key.resolve()
     a.output.mkdir(parents=True, exist_ok=False)
     a.output = a.output.resolve()

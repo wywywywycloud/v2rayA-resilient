@@ -1,3 +1,7 @@
+# Version correction: 2026.10.18-r4
+
+Both service and core now report 2026.10.18-luca.3. Signed r3-to-r4 upgrade on VM passed. API coreVersionValid is true and coreVersionErr is empty; core starts, TPROXY rules exist, domain HTTPS and installed-core probe regression tests pass. Package builder now rejects the actual old mismatched pair and accepts r4, using binary version execution through QEMU when cross-building. See VERSION-VALIDATION.json and current BUILD-MANIFEST.json. Earlier reports below describe r3 and the initial release.
+
 # Published update: 2026.10.18-r3
 
 The public feed now supplies the verified HTTPS probe fix and kmod-tun dependency. See PROBE-VALIDATION.md and PROBE-VALIDATION.json for runtime checks and limitations; BUILD-MANIFEST.json contains current binary/package hashes.

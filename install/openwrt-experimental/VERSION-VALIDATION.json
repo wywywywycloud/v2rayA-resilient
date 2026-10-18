@@ -1,0 +1,37 @@
+{
+  "package": "2026.10.18-r4",
+  "binary_version": "2026.10.18-luca.3",
+  "cause": "r3 packaged service 2026.10.18-luca.3 with unchanged core stamped 2026.10.17-luca.1; API exact-match check correctly rejected this pair",
+  "fix": "Rebuilt same core sources with matching version; service binary unchanged; runtime compatibility check retained",
+  "checks": {
+    "old_pair_packaging": "REJECTED",
+    "new_pair_packaging": "ACCEPTED",
+    "vm_upgrade": "PASS",
+    "api": {
+      "coreVersionValid": true,
+      "coreVersionErr": "",
+      "version": "2026.10.18-luca.3",
+      "coreVersion": "2026.10.18-luca.3"
+    },
+    "domain_https": "PASS",
+    "installed_core_probe_regressions": "PASS",
+    "public_download_sha256": "PASS: all 10 package/index files for both architectures",
+    "public_vm_reinstall": "NOT CONFIRMED: intermittent wget TLS EOF / HTTP network errors; apk fix reported APK unavailable, skipped. Local signed upgrade and API checks passed."
+  },
+  "package_sha256": {
+    "aarch64_generic/xray-proxy-client-experimental-service-2026.10.18-r4.apk": "39046675bc494f27667aff24cd4ae2ce05a7b6c746960bca590feab66c28dc9f",
+    "aarch64_generic/luci-app-xray-proxy-client-experimental-2026.10.18-r4.apk": "af5db3855a7297496cc0a3a1c9de1ce764a493f0cf42bca65184b1b2583bca48",
+    "aarch64_generic/xray-proxy-client-experimental-2026.10.18-r4.apk": "8212e9a0077bf80bfd1a404272330ef696b2eaac7b7e39cb08d971f3be2f50bf",
+    "aarch64_generic/packages.adb": "26ce7ab5c2f63a271a146ca076f18b8441e9c490def3a002eebc9793398a8f1c",
+    "aarch64_generic/xray-proxy-client-experimental-core-2026.10.18-r4.apk": "1628cf079d04957e9043821e04f1ef5e83c62ee1723ee829e3fd212430614bdf",
+    "aarch64_cortex-a53/xray-proxy-client-experimental-service-2026.10.18-r4.apk": "4e91e933d1aaaa6bfe904a24786a8439ba47e692d0c928cef6fe548bfebda125",
+    "aarch64_cortex-a53/luci-app-xray-proxy-client-experimental-2026.10.18-r4.apk": "9576102cbe398a8302b9c30983a1e68f3b876da0f61825245c00cb34706b54da",
+    "aarch64_cortex-a53/xray-proxy-client-experimental-2026.10.18-r4.apk": "8d73f7aa3b0395d82043ee5b140aecef750d687cfc5f42dedc11047ee267dd27",
+    "aarch64_cortex-a53/packages.adb": "6850a411fde799a2e252bbb0db42af45db9338c4e81e608389d392feb2edcde3",
+    "aarch64_cortex-a53/xray-proxy-client-experimental-core-2026.10.18-r4.apk": "11f977f99f53ca2ed6de373c0d0412d0da338b3efbd7182745034e0f10be3242"
+  },
+  "limitations": [
+    "ARM64 generic runtime tested on VM; both architecture packages signed and verified",
+    "No physical router modified during correction"
+  ]
+}
