@@ -35,26 +35,30 @@ func Ping(ctx context.Context, which []*configure.Which, timeout time.Duration) 
 	which = configure.NewWhiches(which).GetNonDuplicated()
 	loc := configure.NewLocator()
 	results := make([]*configure.Which, 0, len(which))
+	nodes := make([]serverObj.ServerObj, 0, len(which))
 	for _, w := range which {
 		if w.TYPE == configure.SubscriptionType {
 			continue
 		}
-		results = append(results, w)
 		sr, err := loc.Locate(&w.NodeRef)
 		if err != nil {
 			return nil, err
 		}
-		nodes := cloneProbeNodes([]serverObj.ServerObj{sr.ServerObj})
-		result := probeSubscriptionServerMeasurementMode(ctx, nodes[0], HttpTestURL, timeout, false)
-		if err := ctx.Err(); err != nil {
-			return nil, err
-		}
+		results = append(results, w)
+		nodes = append(nodes, sr.ServerObj)
+	}
+	measurements := probeDashboardBatch(ctx, cloneProbeNodes(nodes), HttpTestURL, timeout)
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
+	for i, result := range measurements {
 		if result.err != nil {
-			setHTTPLatencyResult(w, nil, result.err, time.Now())
+			setHTTPLatencyResult(results[i], nil, result.err, time.Now())
 		} else {
-			w.Latency = fmt.Sprintf("%.0fms", result.latency.Seconds()*1000)
+			results[i].Latency = fmt.Sprintf("%.0fms", result.latency.Seconds()*1000)
 		}
 	}
+
 	if err := configure.NewWhiches(results).SaveLatencies(); err != nil {
 		return nil, fmt.Errorf("failed to save the latency test result: %w", err)
 	}

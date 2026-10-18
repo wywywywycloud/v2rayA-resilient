@@ -206,6 +206,23 @@ func TestDashboardProbeInstalledCore(t *testing.T) {
 		http.Error(w, "no working upstream", http.StatusBadGateway)
 	}))
 	defer broken.Close()
+	goodNode, _ := serverObj.NewHTTP(proxy.URL)
+	deadNode, _ := serverObj.NewHTTP(broken.URL)
+	nodes := []serverObj.ServerObj{goodNode, deadNode, goodNode, goodNode, goodNode}
+	batch := probeDashboardBatch(context.Background(), cloneProbeNodes(nodes), target.URL, 3*time.Second)
+	for i, result := range batch {
+		if i == 1 {
+			if result.err == nil {
+				t.Fatal("batch accepted dead node")
+			}
+			continue
+		}
+		if result.err != nil || result.latency < 120*time.Millisecond {
+			t.Fatalf("batch node %d: %+v", i, result)
+		}
+	}
+	t.Log("batch routes five candidates independently and rejects dead candidate")
+
 	for _, tc := range []struct {
 		name, address string
 		healthy       bool

@@ -69,6 +69,7 @@ func DeleteConnection(ctx *gin.Context) {
 }
 
 func PostV2ray(ctx *gin.Context) {
+	cancelDashboardProbes()
 	// An empty automatic group needs its first members before the core starts.
 	// Existing members let us start immediately while checking them in the background.
 	initialRefresh := needsInitialGroupRefresh()
@@ -102,6 +103,7 @@ func PostV2ray(ctx *gin.Context) {
 }
 
 func DeleteV2ray(ctx *gin.Context) {
+	cancelDashboardProbes()
 	release, ok := beginMutation(ctx)
 	if !ok {
 		return
