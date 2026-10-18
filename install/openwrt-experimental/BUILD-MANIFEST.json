@@ -1,7 +1,7 @@
 {
   "application_base": "b51db60a6654b50372bfe6d4f3d63a204b928fc5",
   "ipk_source_release": "2026.09.29-experimental.1",
-  "apk_version": "2026.10.18-r4",
+  "apk_version": "2026.10.18-r5",
   "architectures": [
     "aarch64_cortex-a53",
     "aarch64_generic"
@@ -16,10 +16,44 @@
     "GOARM64": "v8.0"
   },
   "binary_sha256": {
-    "v2raya": "e1ed096549bd32c1ce81d0c873ea40195ce8a9199ccab3056527622bbb3746a2",
-    "v2raya_core": "480a3c0925aba70c091c5ff1f7370f8f057be4a62cab56bdc648e5e543a3dc18"
+    "v2raya": "46191d73955840fc45a4f1232c59635ed376ba01029f426a56c90262e5254323",
+    "v2raya_core": "8f459cd668c6b692100f74bcadc314f1a0f6f326ec068b311f07883bf2697b5c"
   },
-  "network_validation": {
+  "feed_files": {
+    "openwrt-25.12/resilient/aarch64_generic/xray-proxy-client-experimental-core-2026.10.18-r5.apk": "191d278d5cb7ffafb16b497d66f96e8b1b46c30e6b967ef4d40d435c98a6e926",
+    "openwrt-25.12/resilient/aarch64_generic/xray-proxy-client-experimental-service-2026.10.18-r5.apk": "01c62e6e290d9616032c3744462405c5cfc99e236caed7101845ed10e2b8ade3",
+    "openwrt-25.12/resilient/aarch64_generic/luci-app-xray-proxy-client-experimental-2026.10.18-r5.apk": "adba670b40f199c3c6ef07aec7c9fb422eae2de586bc390aa08e5919031629b6",
+    "openwrt-25.12/resilient/aarch64_generic/xray-proxy-client-experimental-2026.10.18-r5.apk": "58aea300866dc7348c5e2768149aa8d3b0a088a4b5698e5d7ca92b4e212bb053",
+    "openwrt-25.12/resilient/aarch64_generic/packages.adb": "fb1cb5d43e1912dd672a95968b8b95ead159b31aec54d9fbef4ec359492060ad",
+    "openwrt-25.12/resilient/aarch64_cortex-a53/xray-proxy-client-experimental-core-2026.10.18-r5.apk": "0c78bbb95596554b2e5e74d56b45b29770f310e1ca63ad18106b81ea57849e71",
+    "openwrt-25.12/resilient/aarch64_cortex-a53/xray-proxy-client-experimental-service-2026.10.18-r5.apk": "eb5f16cec2b40360df212dd07a75fec729c5c77734eb1fb28127297753d89152",
+    "openwrt-25.12/resilient/aarch64_cortex-a53/luci-app-xray-proxy-client-experimental-2026.10.18-r5.apk": "5ffacbaaf66119d04109999e87c4927757c5ee91a7b361e489d4f5aad2f6896e",
+    "openwrt-25.12/resilient/aarch64_cortex-a53/xray-proxy-client-experimental-2026.10.18-r5.apk": "e1c56a7cfc6ccfd4fff457480b1a6f264324e7ec457288ecfc152176a1eb089d",
+    "openwrt-25.12/resilient/aarch64_cortex-a53/packages.adb": "74824e68adbf5831d6c6cbbccbec748f0a83e16725b160ad18921172ef6bd7b0"
+  },
+  "package_names": [
+    "xray-proxy-client-experimental",
+    "xray-proxy-client-experimental-core",
+    "xray-proxy-client-experimental-service",
+    "luci-app-xray-proxy-client-experimental"
+  ],
+  "service_version": "2026.10.18-luca.5",
+  "core_version": "2026.10.18-luca.5",
+  "source_commit": "bd5d54dd3061bcc4ad612c9c8666dfb7caec8f52",
+  "feed_commit": "8cb9b74",
+  "public_install": {
+    "status": "PASS",
+    "checks": [
+      "Original bootstrap URL; signed public APK repository without local cache",
+      "All four packages r5",
+      "Installed binary hashes match final tested build",
+      "UCI checksum preserved; existing account login and 24 subscription nodes preserved",
+      "API coreVersionValid=true; empty compatibility error; both versions luca.5"
+    ]
+  },
+  "packaging_gate": "Executes both binary version commands before packaging; use --binary-runner qemu-aarch64 when cross-building. Old mismatched r3 pair rejected; r4 accepted.",
+  "batch_validation": "BATCH-VALIDATION.json",
+  "historical_network_validation_r3": {
     "candidate_expectations": true,
     "checks": [
       "imported XHTTP reached running generated core config (range=default)",
@@ -48,41 +82,5 @@
     "status": "PASS",
     "varied_upload_session": false
   },
-  "feed_files": {
-    "openwrt-25.12/resilient/aarch64_generic/xray-proxy-client-experimental-service-2026.10.18-r4.apk": "39046675bc494f27667aff24cd4ae2ce05a7b6c746960bca590feab66c28dc9f",
-    "openwrt-25.12/resilient/aarch64_generic/luci-app-xray-proxy-client-experimental-2026.10.18-r4.apk": "af5db3855a7297496cc0a3a1c9de1ce764a493f0cf42bca65184b1b2583bca48",
-    "openwrt-25.12/resilient/aarch64_generic/xray-proxy-client-experimental-2026.10.18-r4.apk": "8212e9a0077bf80bfd1a404272330ef696b2eaac7b7e39cb08d971f3be2f50bf",
-    "openwrt-25.12/resilient/aarch64_generic/packages.adb": "26ce7ab5c2f63a271a146ca076f18b8441e9c490def3a002eebc9793398a8f1c",
-    "openwrt-25.12/resilient/aarch64_generic/xray-proxy-client-experimental-core-2026.10.18-r4.apk": "1628cf079d04957e9043821e04f1ef5e83c62ee1723ee829e3fd212430614bdf",
-    "openwrt-25.12/resilient/aarch64_cortex-a53/xray-proxy-client-experimental-service-2026.10.18-r4.apk": "4e91e933d1aaaa6bfe904a24786a8439ba47e692d0c928cef6fe548bfebda125",
-    "openwrt-25.12/resilient/aarch64_cortex-a53/luci-app-xray-proxy-client-experimental-2026.10.18-r4.apk": "9576102cbe398a8302b9c30983a1e68f3b876da0f61825245c00cb34706b54da",
-    "openwrt-25.12/resilient/aarch64_cortex-a53/xray-proxy-client-experimental-2026.10.18-r4.apk": "8d73f7aa3b0395d82043ee5b140aecef750d687cfc5f42dedc11047ee267dd27",
-    "openwrt-25.12/resilient/aarch64_cortex-a53/packages.adb": "6850a411fde799a2e252bbb0db42af45db9338c4e81e608389d392feb2edcde3",
-    "openwrt-25.12/resilient/aarch64_cortex-a53/xray-proxy-client-experimental-core-2026.10.18-r4.apk": "11f977f99f53ca2ed6de373c0d0412d0da338b3efbd7182745034e0f10be3242"
-  },
-  "package_names": [
-    "xray-proxy-client-experimental",
-    "xray-proxy-client-experimental-core",
-    "xray-proxy-client-experimental-service",
-    "luci-app-xray-proxy-client-experimental"
-  ],
-  "service_version": "2026.10.18-luca.3",
-  "core_version": "2026.10.18-luca.3",
-  "source_commit": "4ef764a23d9c56d60de3c4af10167834e5661c03",
-  "feed_commit": "381db6d",
-  "public_install": {
-    "status": "Local signed r3-to-r4 upgrade PASS; all 10 public download hashes PASS; VM public reinstall not confirmed due network failures (see VERSION-VALIDATION.json)",
-    "vm": "OpenWrt 25.12.5 ARM64",
-    "checks": [
-      "Both binaries report 2026.10.18-luca.3",
-      "API coreVersionValid=true and coreVersionErr empty",
-      "Core running and nft TPROXY table present",
-      "Domain HTTPS expected content PASS",
-      "Installed-core and ping regression tests PASS"
-    ],
-    "limitations": [
-      "No physical router modified in this correction"
-    ]
-  },
-  "packaging_gate": "Executes both binary version commands before packaging; use --binary-runner qemu-aarch64 when cross-building. Old mismatched r3 pair rejected; r4 accepted."
+  "version_gate": "Packaging executes both version-only commands through qemu-aarch64, requires exact non-development match."
 }

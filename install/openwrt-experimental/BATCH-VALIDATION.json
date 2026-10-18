@@ -1,0 +1,255 @@
+{
+  "date": "2026-10-18",
+  "apk_version": "2026.10.18-r5",
+  "binary_version": "2026.10.18-luca.5",
+  "source_commit": "bd5d54dd3061bcc4ad612c9c8666dfb7caec8f52",
+  "baseline": {
+    "version": "2026.10.18-luca.3",
+    "seconds": 116.89,
+    "nodes": 24,
+    "measurements": [
+      {
+        "id": 20,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "id": 24,
+        "latency": "TIMEOUT"
+      },
+      {
+        "id": 4,
+        "latency": "216ms"
+      },
+      {
+        "id": 5,
+        "latency": "255ms"
+      },
+      {
+        "id": 7,
+        "latency": "TIMEOUT"
+      },
+      {
+        "id": 9,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "id": 15,
+        "latency": "NOT STABLE"
+      },
+      {
+        "id": 16,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "id": 17,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "id": 6,
+        "latency": "TIMEOUT"
+      },
+      {
+        "id": 8,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "id": 10,
+        "latency": "766ms"
+      },
+      {
+        "id": 14,
+        "latency": "331ms"
+      },
+      {
+        "id": 18,
+        "latency": "385ms"
+      },
+      {
+        "id": 21,
+        "latency": "TIMEOUT"
+      },
+      {
+        "id": 12,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "id": 13,
+        "latency": "4410ms"
+      },
+      {
+        "id": 1,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "id": 2,
+        "latency": "TIMEOUT"
+      },
+      {
+        "id": 3,
+        "latency": "758ms"
+      },
+      {
+        "id": 11,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "id": 22,
+        "latency": "652ms"
+      },
+      {
+        "id": 23,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "id": 19,
+        "latency": "633ms"
+      }
+    ]
+  },
+  "candidate": {
+    "version": "2026.10.18-luca.5",
+    "seconds": 31.188,
+    "nodes": 24,
+    "measurements": [
+      {
+        "id": 13,
+        "latency": "4412ms"
+      },
+      {
+        "id": 14,
+        "latency": "365ms"
+      },
+      {
+        "id": 15,
+        "latency": "NOT STABLE"
+      },
+      {
+        "id": 18,
+        "latency": "375ms"
+      },
+      {
+        "id": 22,
+        "latency": "407ms"
+      },
+      {
+        "id": 23,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "id": 24,
+        "latency": "TIMEOUT"
+      },
+      {
+        "id": 3,
+        "latency": "714ms"
+      },
+      {
+        "id": 5,
+        "latency": "299ms"
+      },
+      {
+        "id": 9,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "id": 12,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "id": 16,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "id": 20,
+        "latency": "TIMEOUT"
+      },
+      {
+        "id": 21,
+        "latency": "TIMEOUT"
+      },
+      {
+        "id": 6,
+        "latency": "TIMEOUT"
+      },
+      {
+        "id": 8,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "id": 10,
+        "latency": "4443ms"
+      },
+      {
+        "id": 1,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "id": 2,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "id": 4,
+        "latency": "209ms"
+      },
+      {
+        "id": 11,
+        "latency": "TIMEOUT"
+      },
+      {
+        "id": 17,
+        "latency": "PROXY ERROR"
+      },
+      {
+        "id": 19,
+        "latency": "1624ms"
+      },
+      {
+        "id": 7,
+        "latency": "PROXY ERROR"
+      }
+    ]
+  },
+  "controls": {
+    "stop_seconds": 0.781,
+    "start_seconds": 5.407,
+    "probe_canceled": true,
+    "versions_match": true,
+    "start_during_probe_seconds": 6.406,
+    "start_canceled_probe": true
+  },
+  "checks": [
+    "Full service tests and vet passed before final start-button change",
+    "Final controller/service tests and vet passed",
+    "Installed-core mixed healthy/dead batch test passed",
+    "Matched versions and API coreVersionValid=true",
+    "Domain HTTPS expected content after controls passed",
+    "Both architecture APK/index signatures verified"
+  ],
+  "package_sha256": {
+    "aarch64_generic/xray-proxy-client-experimental-core-2026.10.18-r5.apk": "191d278d5cb7ffafb16b497d66f96e8b1b46c30e6b967ef4d40d435c98a6e926",
+    "aarch64_generic/xray-proxy-client-experimental-service-2026.10.18-r5.apk": "01c62e6e290d9616032c3744462405c5cfc99e236caed7101845ed10e2b8ade3",
+    "aarch64_generic/luci-app-xray-proxy-client-experimental-2026.10.18-r5.apk": "adba670b40f199c3c6ef07aec7c9fb422eae2de586bc390aa08e5919031629b6",
+    "aarch64_generic/xray-proxy-client-experimental-2026.10.18-r5.apk": "58aea300866dc7348c5e2768149aa8d3b0a088a4b5698e5d7ca92b4e212bb053",
+    "aarch64_generic/packages.adb": "fb1cb5d43e1912dd672a95968b8b95ead159b31aec54d9fbef4ec359492060ad",
+    "aarch64_cortex-a53/xray-proxy-client-experimental-core-2026.10.18-r5.apk": "0c78bbb95596554b2e5e74d56b45b29770f310e1ca63ad18106b81ea57849e71",
+    "aarch64_cortex-a53/xray-proxy-client-experimental-service-2026.10.18-r5.apk": "eb5f16cec2b40360df212dd07a75fec729c5c77734eb1fb28127297753d89152",
+    "aarch64_cortex-a53/luci-app-xray-proxy-client-experimental-2026.10.18-r5.apk": "5ffacbaaf66119d04109999e87c4927757c5ee91a7b361e489d4f5aad2f6896e",
+    "aarch64_cortex-a53/xray-proxy-client-experimental-2026.10.18-r5.apk": "e1c56a7cfc6ccfd4fff457480b1a6f264324e7ec457288ecfc152176a1eb089d",
+    "aarch64_cortex-a53/packages.adb": "74824e68adbf5831d6c6cbbccbec748f0a83e16725b160ad18921172ef6bd7b0"
+  },
+  "limitations": [
+    "Timings measured in OpenWrt 25.12.5 ARM64 QEMU VM, not physical router",
+    "Remote-node health changes with time and network path",
+    "No physical router software modified in this task"
+  ],
+  "public_install": {
+    "status": "PASS",
+    "checks": [
+      "Original bootstrap URL; signed public APK repository without local cache",
+      "All four packages r5",
+      "Installed binary hashes match final tested build",
+      "UCI checksum preserved; existing account login and 24 subscription nodes preserved",
+      "API coreVersionValid=true; empty compatibility error; both versions luca.5"
+    ]
+  }
+}

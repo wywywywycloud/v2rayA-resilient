@@ -1,3 +1,7 @@
+# Current release: 2026.10.18-r5
+
+See BATCH-VALIDATION.md/json for current list-speed, core-control and public-install checks. Both binaries report 2026.10.18-luca.5. Reports below are historical.
+
 # Version correction: 2026.10.18-r4
 
 Both service and core now report 2026.10.18-luca.3. Signed r3-to-r4 upgrade on VM passed. API coreVersionValid is true and coreVersionErr is empty; core starts, TPROXY rules exist, domain HTTPS and installed-core probe regression tests pass. Package builder now rejects the actual old mismatched pair and accepts r4, using binary version execution through QEMU when cross-building. See VERSION-VALIDATION.json and current BUILD-MANIFEST.json. Earlier reports below describe r3 and the initial release.
