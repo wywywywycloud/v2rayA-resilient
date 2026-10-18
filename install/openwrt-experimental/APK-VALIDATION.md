@@ -1,3 +1,11 @@
+# Published update: 2026.10.18-r3
+
+The public feed now supplies the verified HTTPS probe fix and kmod-tun dependency. See PROBE-VALIDATION.md and PROBE-VALIDATION.json for runtime checks and limitations; BUILD-MANIFEST.json contains current binary/package hashes.
+
+Public installation on OpenWrt 25.12.5 ARM64 passed using the original bootstrap URL and apk --no-cache add --upgrade xray-proxy-client-experimental. All four packages are r3; modified UCI and database hashes are unchanged. Signatures were accepted normally, installed binaries match the tested build, and /dev/net/tun is present. All ten public APK/index downloads across both architectures match the tested hashes. An initial test assertion used apk info incorrectly; the version was then checked with apk info -e name=version.
+
+## Historical initial-release validation (2026.10.17-r1)
+
 # APK validation: luca-xray-key-bot
 
 Validated on 2026-10-17 UTC using the official OpenWrt 25.12.5 ARM64 image (r33051-f5dae5ece4, Linux 6.12.94, apk-tools 3.0.5), QEMU cortex-a53, 2 CPUs and 1 GiB RAM. Package architecture was aarch64_generic. A separate /usr disk provided test space.

@@ -2,7 +2,7 @@
   "date": "2026-10-18",
   "branch": "main-apk-feed",
   "package": "2026.10.18-r3",
-  "publication": "local candidate only",
+  "publication": "Public openwrt-feed 80f4569; exact bootstrap URL installation PASS on OpenWrt 25.12.5 VM",
   "vm": "OpenWrt 25.12.5 ARM64 under QEMU TCG/user networking",
   "local_baseline": {
     "candidate_expectations": true,
@@ -590,8 +590,7 @@
     "VM end-to-end HTTPS timings include handshakes, target response and emulation overhead; they are not ICMP RTT or a router latency benchmark.",
     "Real-node outcomes describe this VM network path at test time, not global server availability.",
     "The local network harness does not establish transparent interception or prompt HTTP/1 cancellation.",
-    "Python default User-Agent got HTTP 403 from the speed target; the application Go User-Agent successfully downloaded all 262144 bytes.",
-    "Existing release BUILD-MANIFEST describes earlier binaries; this report describes the local probe fix."
+    "Python default User-Agent got HTTP 403 from the speed target; the application Go User-Agent successfully downloaded all 262144 bytes."
   ],
   "local_fixed_final_r3": {
     "candidate_expectations": true,

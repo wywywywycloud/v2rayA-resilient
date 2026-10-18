@@ -8,7 +8,7 @@ The APK also requires `kmod-tun`, following the earlier VM reproduction of a mis
 
 ## Reproduction and results
 
-- OpenWrt 25.12.5 ARM64, QEMU TCG with user networking; signed local APK candidates, not a new public feed release.
+- OpenWrt 25.12.5 ARM64, QEMU TCG with user networking; signed local APK candidates, subsequently published unchanged as 2026.10.18-r3.
 - Controlled dead proxy: TCP-only measurement 2 ms; request through the installed core returned HTTP 503 and was rejected.
 - Controlled working proxy: a deliberately delayed HTTP response was measured at approximately 269 ms rather than the 4 ms TCP connection.
 - Original and fixed local packages passed the extended service/core network harness: payload transfer, DNS UDP/TCP/verified DoH, cache expiry/outage/recovery, routing, group selection, 16 concurrent flows, HTTP 503 and cancellation cases. This is functional validation, not a performance or transparent interception benchmark.
@@ -43,4 +43,4 @@ XRAY_LOCATION_ASSET=/usr/share/v2ray \
 
 These HTTPS timings include the proxy/TLS exchange, destination response and emulation overhead. They are not ICMP RTT and should not be presented as the physical router's exact latency. A failed test means that this node could not reach the test URL from the tested path at that time. External test-target availability still matters.
 
-The existing BUILD-MANIFEST.json describes the earlier package build; this report documents the separate local probe-fix candidate.
+BUILD-MANIFEST.json now describes the published r3 artifacts. Public installation through the original bootstrap URL passed on the same VM; configuration and database hashes were preserved. Both architecture package/index downloads match the tested SHA256 values.
