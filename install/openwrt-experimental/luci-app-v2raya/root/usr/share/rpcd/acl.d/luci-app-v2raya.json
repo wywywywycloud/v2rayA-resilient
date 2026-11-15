@@ -2,7 +2,9 @@
 	"luci-app-v2raya": {
 		"description": "Grant access to x-Ray VPN configuration",
 		"read": {
+			"cgi-io": [ "exec" ],
 			"file": {
+				"/sbin/logread -e v2raya": [ "exec" ],
 				"/var/log/v2raya/v2raya.log": [ "read" ]
 			},
 			"ubus": {

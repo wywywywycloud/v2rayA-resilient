@@ -6,6 +6,10 @@
 'require view';
 
 return view.extend({
+	load: function() {
+		return uci.load('v2raya');
+	},
+
 	render: function() {
 		/* Thanks to luci-app-aria2 */
 		var css = '					\
@@ -30,10 +34,11 @@ return view.extend({
 			}, _('Collecting data…'))
 		);
 
-		var log_path = '/var/log/v2raya/v2raya.log';
+		var log_path = uci.get('v2raya', 'config', 'log_file');
 
 		poll.add(L.bind(function() {
-			return fs.read_direct(log_path, 'text')
+			return (log_path ? fs.read_direct(log_path, 'text') :
+				fs.exec_direct('/sbin/logread', ['-e', 'v2raya']))
 			.then(function(res) {
 				var log = E('pre', { 'wrap': 'pre' }, [
 					res.trim() || _('Log is clean.')

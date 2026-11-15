@@ -41,7 +41,7 @@ start_service() {
 	procd_set_param env XDG_DATA_HOME="/usr/share"
 
 	append_env "config" "/etc/v2raya"
-	append_env "log_file" "/var/log/v2raya/v2raya.log"
+	append_env_arg "config" "log_file"
 
 	append_env_arg "config" "address" "0.0.0.0:2017"
 	append_env_arg "config" "ipv6_support" "auto"
