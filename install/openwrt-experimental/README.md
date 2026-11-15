@@ -2,6 +2,14 @@
 
 This directory contains the package builder, LuCI view, init script, configuration and license copied from packaging revision `564fc811`, with display branding for x-Ray VPN. It needs only Python 3 and two already-built static Linux ARM64 binaries, with the GUI embedded in the service. No lab checkout or absolute build path is required.
 
+Logs go to the OpenWrt system journal by default (`logread -e v2raya`),
+including in the LuCI log viewer. OpenWrt's log settings control journal
+retention. To opt into file logging, set `v2raya.config.log_file`; existing
+UCI configuration is preserved on package upgrades. The bundled LuCI ACL
+permits reading `/var/log/v2raya/v2raya.log`; other explicit paths need a
+matching local read permission. File logging still uses `log_max_days`;
+a per-file size limit does not bound the total size of rotated files.
+
 Build on Linux with Go **1.26.8**, Node 24 and Yarn 1.22.22. Use the committed `core/go.mod`, `core/go.sum` and `gui/yarn.lock`; do not replace the pinned Xray or net forks with local checkouts. Both remote fork replacements are declared in the main core module because dependency-module replacements are not inherited.
 
 From the repository root, build the frontend and ARM64 binaries with a shared version:
