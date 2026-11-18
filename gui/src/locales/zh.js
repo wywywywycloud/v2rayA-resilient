@@ -33,10 +33,17 @@ export default {
     sources: { all: "全部", local: "本地" },
     membersOnly: "仅成员",
     source: "来源",
+    sort: "排序",
+    sorts: {
+      none: "默认",
+      asc: "延迟从低到高",
+      desc: "延迟从高到低",
+    },
     inUse: "使用中",
     addToGroup: "添加到代理组",
     removeFromGroup: "从代理组移除",
     selectAll: "全选",
+    selectFailed: "选中失败节点",
     autoUpdate: "自动更新",
     noSubscriptions: "还没有订阅",
     noSubscriptionsHint: "导入订阅地址后，它的节点归在这里，可手动或定时更新。",
@@ -56,7 +63,7 @@ export default {
     switchNode: "选择节点",
     proxyGroup: "代理组",
     editGroup: "增删节点",
-    autoFastest: "自动（延迟最低）",
+    autoFastest: "自动（分组策略）",
     emptyGroup: "此分组没有节点",
     updateAll: "全部更新",
     updatedAt: "更新于 {time}",
@@ -146,6 +153,9 @@ export default {
     coreStoppedDirect: "核心已停止。是否绕过代理更新？",
     coreStoppedDirectAll: "核心已停止。是否绕过代理更新所有订阅？",
 
+    nodeDns: "节点解析 DNS",
+    nodeDnsHint:
+      "auto 保持原有顺序；也可填写纯 IP 的 UDP、TCP、TLS 或 HTTPS DNS。仅在 DNS 劫持开启时生效。DoH 需填写包含路径的完整 URL，例如 https://1.1.1.1/dns-query。不影响测速和订阅下载。",
     settingsTitle: "订阅更新",
     remarks: "别名",
     numberServers: "节点数",
@@ -489,11 +499,12 @@ export default {
       title: "模板",
       full: "整套规则，替换当前规则",
       add: "追加规则，插入到光标处",
-      whitelist: "国内直连，其余走代理",
-      blacklist: "国外站点走代理，其余直连",
+      whitelist: "中国站点直连，其余流量走代理",
+      blacklist: "中国以外的站点走代理，其余直连",
       global: "全部走代理，仅局域网直连",
       minimal: "只让常用海外服务走代理，其余直连",
       russia: "俄罗斯站点直连，例外及其余流量走代理",
+      iran: "伊朗站点直连，其余流量走代理",
       ads: "拦截广告域名",
       streaming:
         "流媒体走代理（Netflix、Disney、HBO、Prime Video、YouTube、Spotify、TikTok）",
@@ -501,7 +512,7 @@ export default {
       telegram: "Telegram 走代理",
       ai: "AI 服务走代理",
       dev: "开发者服务走代理（GitHub、GitLab、Docker、npm、JetBrains、Hugging Face）",
-      cnServices: "Apple、Google、Microsoft、Steam 的国内服务与 Bilibili 直连",
+      cnServices: "Apple、Google、Microsoft、Steam 的中国区服务与 Bilibili 直连",
       appleMicrosoft: "Apple 与 Microsoft 直连",
       games: "游戏平台直连",
       speedtest: "测速站点直连",
@@ -605,6 +616,9 @@ export default {
     saveFailed: "无法保存 RoutingA：{message}",
   },
   outbound: {
+    autoAdd: "包含目录中的所有节点",
+    autoAddHelp:
+      "包含所有订阅节点和独立服务器。关闭后保留当前成员，可手动编辑。",
     addMessage: "请输入你想要添加的代理分组名称：",
     deleteMessage:
       '确定删除代理分组 "{outboundName}"？其中的节点将断开，此操作不可撤销。',
@@ -617,6 +631,11 @@ export default {
     probeUrl: "探测 URL",
     probeInterval: "探测间隔",
     type: "类型",
+    strategies: {
+      leastLoad: "最低负载",
+      roundRobin: "轮流选择",
+      random: "随机选择",
+    },
   },
   proxyGroup: {
     searchNodes: "搜索节点...",
@@ -760,6 +779,10 @@ export default {
       "不支持的加密方式：{cipher}。请改用 aes-128-gcm、aes-256-gcm、chacha20-ietf-poly1305 或 2022-blake3 系列",
     LINK_MALFORMED: "格式错误的 {protocol} 链接：{detail}",
     SUBSCRIPTION_FETCH_FAILED: "无法从 {host} 获取订阅：{detail}",
+    NODE_DNS_INVALID:
+      "请使用不指向本服务 DNS 监听器的纯 IP UDP、TCP、TLS 或 HTTPS DNS 地址。",
+    NODE_DNS_CONFLICT:
+      "已连接订阅的节点域名 {domain} 配置了不同 DNS，请为共享域名选择相同地址。",
     SUBSCRIPTION_EMPTY: "订阅中没有节点。",
     SUBSCRIPTION_NOT_FOUND: "订阅 #{id} 不存在，请刷新页面。",
     SERVER_NOT_FOUND: "节点 #{id} 不存在（共有 {count} 个节点），请刷新页面。",

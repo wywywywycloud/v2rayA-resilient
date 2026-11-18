@@ -9,6 +9,7 @@ import (
 	"net"
 	"net/http"
 	"net/url"
+	"slices"
 	"strconv"
 	"strings"
 	"time"
@@ -331,7 +332,13 @@ func storeSubscriptionUpdate(index int, old *configure.SubscriptionRaw, nodes []
 	previous := configure.GetConnectedServers()
 	affected := false
 	updated := configure.NewNodeRefs(nil)
-	previousRefs := previous.Get()
+	// Automatic groups follow the catalog; only manual groups retain missing nodes.
+	previousRefs := make([]*configure.NodeRef, 0, previous.Len())
+	for _, ref := range previous.Get() {
+		if !configure.GetOutboundSetting(ref.Outbound).AutoAdd {
+			previousRefs = append(previousRefs, ref)
+		}
+	}
 	mappedIDs := map[int]int{}
 	exactMatches := map[int]bool{}
 	fallbackClaims := map[int]int{}
@@ -376,6 +383,14 @@ func storeSubscriptionUpdate(index int, old *configure.SubscriptionRaw, nodes []
 			}
 		}
 		updated.Add(copy)
+	}
+	if configure.HasAutomaticGroup() {
+		affected = affected || !slices.EqualFunc(old.Servers, next.Servers, func(a, b configure.ServerRaw) bool {
+			if a.ServerObj == nil || b.ServerObj == nil {
+				return a.ServerObj == nil && b.ServerObj == nil
+			}
+			return a.ServerObj.ExportToURL() == b.ServerObj.ExportToURL()
+		})
 	}
 	if !affected {
 		return configure.SetSubscriptionAndConnects(index, &next, updated)
@@ -438,6 +453,15 @@ func ModifySubscriptionRemark(subscription touch.Subscription) error {
 	if raw == nil {
 		return common.Coded("SUBSCRIPTION_NOT_FOUND", fmt.Errorf("subscription #%d does not exist", subscription.ID), map[string]interface{}{"id": subscription.ID})
 	}
+	previous := *raw
+	// Old clients omit the field, so empty means "keep the stored value".
+	if subscription.NodeDns != "" && subscription.NodeDns != raw.NodeDns {
+		nodeDns, err := v2ray.NormalizeNodeDNS(subscription.NodeDns, configure.GetSettingNotNil())
+		if err != nil {
+			return err
+		}
+		raw.NodeDns = nodeDns
+	}
 	mode := raw.UpdateMode
 	if subscription.UpdateMode != nil {
 		mode = *subscription.UpdateMode
@@ -471,7 +495,12 @@ func ModifySubscriptionRemark(subscription touch.Subscription) error {
 	if subscription.AllowDirectRecovery != nil {
 		raw.AllowDirectRecovery = *subscription.AllowDirectRecovery
 	}
-	return configure.SetSubscription(subscription.ID-1, raw)
+	if raw.NodeDns == previous.NodeDns {
+		return configure.SetSubscription(subscription.ID-1, raw)
+	}
+	return ApplyCoreConfig(func() func() error {
+		return func() error { return configure.SetSubscription(subscription.ID-1, &previous) }
+	}, func() error { return configure.SetSubscription(subscription.ID-1, raw) })
 }
 
 func subscriptionHTTPClient() (*http.Client, error) {
@@ -489,6 +518,9 @@ func subscriptionHTTPClient() (*http.Client, error) {
 
 func SelectServersFromSubscription(index int, shouldDisconnect bool) error {
 	const outbound = "proxy"
+	if configure.GetOutboundSetting(outbound).AutoAdd {
+		return nil
+	}
 	if shouldDisconnect {
 		connections := configure.GetConnectedServersByOutbound(outbound)
 		if connections == nil {

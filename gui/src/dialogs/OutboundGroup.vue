@@ -14,6 +14,7 @@ const emit = defineEmits<{ close: [saved?: boolean] }>();
 const { t } = useI18n();
 const notify = useNotify();
 const setting = reactive<OutboundSetting>({
+  autoAdd: false,
   probeURL: "",
   probeInterval: "",
   type: "leastping",
@@ -59,6 +60,13 @@ async function save() {
     </v-card-item>
     <v-card-text class="px-6">
       <v-form ref="form" @submit.prevent="save">
+        <v-switch
+          v-model="setting.autoAdd"
+          :label="t('outbound.autoAdd')"
+          :hint="t('outbound.autoAddHelp')"
+          persistent-hint
+          class="mb-4"
+        />
         <v-text-field
           v-model="setting.probeURL"
           :label="t('outbound.probeUrl')"
@@ -75,6 +83,9 @@ async function save() {
           v-model="setting.type"
           :items="[
             { value: 'leastping', title: t('setting.options.leastPing') },
+            { value: 'leastload', title: t('outbound.strategies.leastLoad') },
+            { value: 'roundrobin', title: t('outbound.strategies.roundRobin') },
+            { value: 'random', title: t('outbound.strategies.random') },
           ]"
           :label="t('outbound.type')"
         />

@@ -333,9 +333,14 @@ func getConnectedServerObjs() ([]serverObj.ServerObj, []serverInfo, error) {
 		if err != nil {
 			return nil, nil, err
 		}
+		var nodeDns string
+		if cs.TYPE == configure.SubscriptionServerType {
+			nodeDns = loc.Subscriptions()[cs.Sub].NodeDns
+		}
 		serverInfos = append(serverInfos, serverInfo{
 			Info:         sr.ServerObj,
 			OutboundName: cs.Outbound,
+			NodeDns:      nodeDns,
 		})
 	}
 	serverInfos = applySelection(serverInfos, func(outbound string) string {
@@ -378,7 +383,7 @@ func NewTemplateFromConnectedServers(setting *configure.Setting) (tmpl *Template
 	if err != nil {
 		return nil, err
 	}
-	if len(serverObjs) == 0 {
+	if len(serverObjs) == 0 && !configure.HasAutomaticGroup() {
 		return nil, NoConnectedServerErr
 	}
 	var pluginPorts map[int]int
